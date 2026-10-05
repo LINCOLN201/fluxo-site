@@ -293,3 +293,7 @@ nav a, nav .logo-t { white-space: nowrap; }
 .dl-top h2 { margin-right: auto; }
 .prow { grid-template-columns: auto 1fr auto auto; }
 .prow-logo { width: 40px; height: 40px; border-radius: 10px; }
+
+/* showcase sem o painel lateral */
+.panels { grid-template-columns: 1fr; }
+.panels .panel-vis { max-width: 980px; margin-inline: auto; }
