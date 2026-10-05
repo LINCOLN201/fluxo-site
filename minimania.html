@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mini Mania Manager — Catálogo de miniaturas de RPG e boardgames</title>
+  <meta name="description" content="Catálogo e gestão de coleções de miniaturas de RPG e boardgames. Em desenvolvimento." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..650&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#050505;--surf:#0d0d0d;--s2:#111;--brd:#1a1a1a;--brd2:#252525;--muted:#787878;--dim:#999;--text:#bbb;--white:#efefef;--lime:#a8e063;--limeb:rgba(168,224,99,.1);--rose:#fb7185;--roseb:rgba(251,113,133,.1)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(rgba(168,224,99,.045) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;z-index:-1}
+    a{color:inherit;text-decoration:none}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1rem,4vw,2.5rem);background:rgba(5,5,5,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--brd)}
+    .nav-logo{display:flex;align-items:center;gap:.5rem;font-size:.82rem;font-weight:700;color:var(--white);letter-spacing:-.02em}
+    .nav-logo svg{width:22px;height:22px}
+    .nav-links{display:flex;align-items:center;gap:1.75rem}
+    .nav-links a{font-size:.78rem;font-weight:500;color:var(--muted);transition:color .15s}
+    .nav-links a:hover{color:var(--white)}
+    .btn-back{display:inline-flex;align-items:center;gap:.4rem;background:var(--lime);color:#060606;font-size:.78rem;font-weight:700;padding:.45em 1.1em;border-radius:8px;transition:opacity .15s}
+    .btn-back:hover{opacity:.85}
+
+    .bc{padding-top:80px;padding-bottom:.5rem;padding-inline:clamp(1.25rem,5vw,3rem);max-width:1100px;margin-inline:auto}
+    .bc-inner{display:flex;align-items:center;gap:.5rem;font-size:.72rem;color:var(--muted)}
+    .bc-inner a{color:var(--muted);transition:color .15s}
+    .bc-inner a:hover{color:var(--white)}
+    .bc-sep{opacity:.4}
+
+    .hero{max-width:1100px;margin-inline:auto;padding:3rem clamp(1.25rem,5vw,3rem) 4rem}
+    .prod-badge{display:inline-flex;align-items:center;gap:.45rem;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--rose);background:var(--roseb);border:1px solid rgba(251,113,133,.2);padding:.3em .75em;border-radius:6px;margin-bottom:1.2rem}
+    .hero-h{font-size:clamp(2.2rem,4.5vw,3.8rem);font-weight:800;letter-spacing:-.06em;color:var(--white);line-height:.92;margin-bottom:1.2rem}
+    .hero-sub{font-size:clamp(.88rem,1.2vw,.98rem);color:var(--dim);line-height:1.75;max-width:50ch;margin-bottom:2.5rem}
+
+    .wip-box{border:1px solid rgba(251,113,133,.2);border-radius:20px;background:rgba(251,113,133,.04);padding:3rem 2rem;max-width:560px}
+    .wip-label{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rose);margin-bottom:1rem}
+    .wip-h{font-size:1.3rem;font-weight:800;letter-spacing:-.04em;color:var(--white);margin-bottom:.6rem}
+    .wip-p{font-size:.82rem;color:var(--muted);line-height:1.7;margin-bottom:1.75rem}
+    .btn-p{display:inline-flex;align-items:center;gap:.45rem;background:var(--white);color:#060606;font-size:.82rem;font-weight:700;padding:.6em 1.3em;border-radius:9px;transition:opacity .15s}
+    .btn-p:hover{opacity:.85}
+
+    .features{max-width:1100px;margin-inline:auto;padding:0 clamp(1.25rem,5vw,3rem) 5rem}
+    .sec-eyebrow{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem}
+    .sec-h{font-size:clamp(1.3rem,2vw,1.7rem);font-weight:800;letter-spacing:-.05em;color:var(--white);margin-bottom:2rem;line-height:1}
+    .feat-list{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--brd)}
+    .feat{background:var(--bg);padding:1.5rem;display:flex;gap:1rem;align-items:flex-start}
+    .feat-icon{width:32px;height:32px;border-radius:8px;background:var(--roseb);border:1px solid rgba(251,113,133,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .feat-icon svg{width:14px;height:14px;stroke:var(--rose);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+    .feat-h{font-size:.85rem;font-weight:700;color:var(--white);letter-spacing:-.02em;margin-bottom:.25rem}
+    .feat-p{font-size:.76rem;color:var(--muted);line-height:1.6}
+
+    footer{border-top:1px solid var(--brd);padding:1.5rem clamp(1.25rem,5vw,3rem);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+    .ft-left{font-size:.7rem;color:var(--muted)}
+    .ft-right{display:flex;gap:1.5rem}
+    .ft-right a{font-size:.72rem;color:var(--muted);transition:color .15s}
+    .ft-right a:hover{color:var(--white)}
+
+    @media(max-width:640px){.feat-list{grid-template-columns:1fr}}
+  </style>
+<link rel="stylesheet" href="tema.css?v=6" />
+</head>
+<body>
+
+<nav>
+  <a href="./index.html" class="nav-logo">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="var(--lime)"/></svg>
+    Fluxo Ecossistema
+  </a>
+  <div class="nav-links">
+    <a href="./index.html#ecossistema">Produtos</a>
+    <a href="./index.html" class="btn-back">← Ecossistema</a>
+  </div>
+</nav>
+
+<div class="bc">
+  <div class="bc-inner">
+    <a href="./index.html">Fluxo Ecossistema</a>
+    <span class="bc-sep">/</span>
+    <span style="color:var(--white)">Mini Mania Manager</span>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="prod-badge">Em desenvolvimento</div>
+  <h1 class="hero-h">Sua coleção de<br>miniaturas, organizada.</h1>
+  <p class="hero-sub">Catálogo completo para colecionadores de miniaturas de RPG e boardgames. Registre o que você tem, o que falta pintar, o que quer comprar e onde cada peça está.</p>
+
+  <div class="wip-box">
+    <div class="wip-label">Por vir</div>
+    <div class="wip-h">Produto em fase inicial de desenvolvimento</div>
+    <p class="wip-p">O Mini Mania Manager ainda não tem versão disponível para teste. Deixe seu contato se quiser participar do beta quando abrir.</p>
+    <a href="mailto:lincolnqueiroz201@gmail.com?subject=Interesse%20Mini%20Mania%20Manager" class="btn-p">Me avise quando lançar</a>
+  </div>
+</section>
+
+<section class="features">
+  <p class="sec-eyebrow">O que está sendo construído</p>
+  <h2 class="sec-h">Funcionalidades previstas.</h2>
+  <div class="feat-list">
+    <div class="feat">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+      <div>
+        <div class="feat-h">Catálogo da coleção</div>
+        <p class="feat-p">Registre todas as miniaturas com nome, sistema (D&D, Warhammer, Pathfinder...), fabricante, escala e foto. Busca e filtros rápidos.</p>
+      </div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+      <div>
+        <div class="feat-h">Status de pintura</div>
+        <p class="feat-p">Acompanhe o progresso de cada miniatura: sem pintar, em andamento, base pronta, finalizada. Visão geral do backlog de pintura.</p>
+      </div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+      <div>
+        <div class="feat-h">Lista de desejos</div>
+        <p class="feat-p">Separe o que você quer comprar com preço estimado e prioridade. Compare com o que você já tem para evitar duplicatas.</p>
+      </div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+      <div>
+        <div class="feat-h">Localização física</div>
+        <p class="feat-p">Registre onde cada miniatura está guardada: caixa, prateleira, pasta. Encontre qualquer peça em segundos.</p>
+      </div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+      <div>
+        <div class="feat-h">Estatísticas da coleção</div>
+        <p class="feat-p">Quantas miniaturas você tem, por sistema, por escala, por status. Valor estimado total da coleção.</p>
+      </div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>
+      <div>
+        <div class="feat-h">Exportação e compartilhamento</div>
+        <p class="feat-p">Exporte o catálogo como PDF ou planilha. Compartilhe sua lista de desejos com amigos antes de uma compra coletiva.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="ft-left">© 2026 · Fluxo Ecossistema · Software com propósito, feito no Brasil.</span>
+  <div class="ft-right">
+    <a href="./index.html">Ecossistema</a>
+    <a href="./fluxo-mais.html">Fluxo+</a>
+  </div>
+</footer>
+
+</body>
+</html>

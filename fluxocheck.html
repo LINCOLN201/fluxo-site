@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FluxoCheck — Checklists e conformidade operacional</title>
+  <meta name="description" content="Controle operacional para redes de unidades. Checklists com histórico, alertas de divergência e relatórios de conformidade." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..650&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:#050505;--surf:#0d0d0d;--s2:#111;
+      --brd:#1a1a1a;--brd2:#252525;
+      --muted:#787878;--dim:#999;--text:#bbb;--white:#efefef;
+      --lime:#a8e063;--limeb:rgba(168,224,99,.1);
+      --violet:#818cf8;--violetb:rgba(129,140,248,.1);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(rgba(168,224,99,.045) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;z-index:-1}
+    a{color:inherit;text-decoration:none}
+    img{display:block}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1rem,4vw,2.5rem);background:rgba(5,5,5,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--brd)}
+    .nav-logo{display:flex;align-items:center;gap:.5rem;font-size:.82rem;font-weight:700;color:var(--white);letter-spacing:-.02em}
+    .nav-logo svg{width:22px;height:22px}
+    .nav-links{display:flex;align-items:center;gap:1.75rem}
+    .nav-links a{font-size:.78rem;font-weight:500;color:var(--muted);transition:color .15s}
+    .nav-links a:hover{color:var(--white)}
+    .btn-back{display:inline-flex;align-items:center;gap:.4rem;background:var(--lime);color:#060606;font-size:.78rem;font-weight:700;padding:.45em 1.1em;border-radius:8px;transition:opacity .15s}
+    .btn-back:hover{opacity:.85}
+
+    .bc{padding-top:80px;padding-bottom:.5rem;padding-inline:clamp(1.25rem,5vw,3rem);max-width:1100px;margin-inline:auto}
+    .bc-inner{display:flex;align-items:center;gap:.5rem;font-size:.72rem;color:var(--muted)}
+    .bc-inner a{color:var(--muted);transition:color .15s}
+    .bc-inner a:hover{color:var(--white)}
+    .bc-sep{opacity:.4}
+
+    /* HERO */
+    .hero{max-width:1100px;margin-inline:auto;padding:2.5rem clamp(1.25rem,5vw,3rem) 3rem}
+    .prod-badge{display:inline-flex;align-items:center;gap:.45rem;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--violet);background:var(--violetb);border:1px solid rgba(129,140,248,.2);padding:.3em .75em;border-radius:6px;margin-bottom:1.2rem}
+    .hero-h{font-size:clamp(2.2rem,4.5vw,3.8rem);font-weight:800;letter-spacing:-.06em;color:var(--white);line-height:.92;margin-bottom:1.2rem}
+    .hero-sub{font-size:clamp(.88rem,1.2vw,.98rem);color:var(--dim);line-height:1.75;max-width:52ch;margin-bottom:2rem}
+    .hero-btns{display:flex;flex-wrap:wrap;gap:.65rem}
+    .btn-p{display:inline-flex;align-items:center;gap:.45rem;background:var(--white);color:#060606;font-size:.82rem;font-weight:700;padding:.6em 1.3em;border-radius:9px;letter-spacing:-.01em;transition:opacity .15s}
+    .btn-p:hover{opacity:.85}
+    .btn-g{display:inline-flex;align-items:center;gap:.45rem;background:transparent;color:var(--text);font-size:.82rem;font-weight:600;padding:.6em 1.3em;border-radius:9px;border:1px solid var(--brd2);letter-spacing:-.01em;transition:border-color .15s,color .15s}
+    .btn-g:hover{border-color:var(--muted);color:var(--white)}
+
+    /* SCREENSHOTS */
+    .screenshots{max-width:1100px;margin-inline:auto;padding:0 clamp(1.25rem,5vw,3rem) 3rem}
+    .screens-grid{display:grid;grid-template-columns:1fr auto;gap:1.5rem;align-items:start}
+    .screen-frame{border-radius:16px;overflow:hidden;border:1px solid var(--brd);background:var(--surf);box-shadow:0 40px 80px rgba(0,0,0,.5)}
+    .screen-topbar{height:36px;background:var(--s2);display:flex;align-items:center;gap:.45rem;padding:0 1rem}
+    .sd{width:11px;height:11px;border-radius:50%}
+    .screen-frame img{width:100%;display:block}
+    .phone-frame{width:180px;background:var(--surf);border-radius:28px;border:2px solid #222;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.05);flex-shrink:0}
+    .phone-frame img{width:100%;display:block}
+
+    /* STATS */
+    .stats-bar{max-width:1100px;margin-inline:auto;padding:2.5rem clamp(1.25rem,5vw,3rem);display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--brd);border-bottom:1px solid var(--brd);gap:1px;background:var(--brd)}
+    .stat{background:var(--bg);padding:1.5rem 1.25rem}
+    .stat-n{font-size:1.9rem;font-weight:800;letter-spacing:-.05em;color:var(--white);line-height:1}
+    .stat-l{font-size:.72rem;color:var(--muted);margin-top:.3rem}
+
+    /* FEATURES */
+    .features{max-width:1100px;margin-inline:auto;padding:4rem clamp(1.25rem,5vw,3rem)}
+    .sec-eyebrow{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem}
+    .sec-h{font-size:clamp(1.5rem,2.5vw,2rem);font-weight:800;letter-spacing:-.055em;color:var(--white);margin-bottom:2.5rem;line-height:1}
+    .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--brd)}
+    .feat{background:var(--bg);padding:1.75rem 1.5rem}
+    .feat-icon{width:36px;height:36px;border-radius:10px;background:var(--violetb);border:1px solid rgba(129,140,248,.15);display:flex;align-items:center;justify-content:center;margin-bottom:1rem}
+    .feat-icon svg{width:16px;height:16px;stroke:var(--violet);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+    .feat-h{font-size:.88rem;font-weight:700;color:var(--white);letter-spacing:-.02em;margin-bottom:.4rem}
+    .feat-p{font-size:.78rem;color:var(--muted);line-height:1.65}
+
+    /* STATUS TABLE */
+    .status-section{max-width:1100px;margin-inline:auto;padding:0 clamp(1.25rem,5vw,3rem) 4rem}
+    .status-table{border:1px solid var(--brd);border-radius:14px;overflow:hidden}
+    .st-header{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;padding:.75rem 1.25rem;border-bottom:1px solid var(--brd);background:var(--surf)}
+    .st-header span{font-size:.65rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+    .st-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;padding:.9rem 1.25rem;border-bottom:1px solid var(--brd);align-items:center}
+    .st-row:last-child{border-bottom:none}
+    .st-nm{font-size:.82rem;font-weight:600;color:var(--white)}
+    .st-val{font-size:.82rem;color:var(--dim)}
+    .st-badge{font-size:.65rem;font-weight:700;padding:.2em .6em;border-radius:5px;border:1px solid;display:inline-flex;width:fit-content}
+    .b-crit{color:#ef4444;border-color:rgba(239,68,68,.25);background:rgba(239,68,68,.08)}
+    .b-warn{color:#f59e0b;border-color:rgba(245,158,11,.25);background:rgba(245,158,11,.08)}
+    .b-ok{color:var(--lime);border-color:rgba(168,224,99,.25);background:rgba(168,224,99,.07)}
+
+    /* CTA */
+    .cta{max-width:1100px;margin-inline:auto;padding:0 clamp(1.25rem,5vw,3rem) 5rem;text-align:center}
+    .cta-box{border:1px solid var(--brd);border-radius:20px;padding:3.5rem 2rem;background:radial-gradient(ellipse at 50% 0%,rgba(129,140,248,.06),transparent 60%)}
+    .cta-h{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;letter-spacing:-.06em;color:var(--white);margin-bottom:.75rem;line-height:1}
+    .cta-s{font-size:.88rem;color:var(--muted);max-width:44ch;margin:0 auto 1.75rem}
+    .cta-note{font-size:.7rem;color:var(--dim);margin-top:.75rem}
+
+    footer{border-top:1px solid var(--brd);padding:1.5rem clamp(1.25rem,5vw,3rem);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+    .ft-left{font-size:.7rem;color:var(--muted)}
+    .ft-right{display:flex;gap:1.5rem}
+    .ft-right a{font-size:.72rem;color:var(--muted);transition:color .15s}
+    .ft-right a:hover{color:var(--white)}
+
+    @media(max-width:768px){
+      .screens-grid{grid-template-columns:1fr}
+      .phone-frame{display:none}
+      .stats-bar{grid-template-columns:1fr 1fr}
+      .feat-grid{grid-template-columns:1fr}
+      .st-header,.st-row{grid-template-columns:1fr 1fr}
+      .st-header span:nth-child(n+3),.st-row>*:nth-child(n+3){display:none}
+    }
+  </style>
+<link rel="stylesheet" href="tema.css?v=6" />
+</head>
+<body>
+
+<nav>
+  <a href="./index.html" class="nav-logo">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="var(--lime)"/></svg>
+    Fluxo Ecossistema
+  </a>
+  <div class="nav-links">
+    <a href="./index.html#ecossistema">Produtos</a>
+    <a href="./index.html" class="btn-back">← Ecossistema</a>
+  </div>
+</nav>
+
+<div class="bc">
+  <div class="bc-inner">
+    <a href="./index.html">Fluxo Ecossistema</a>
+    <span class="bc-sep">/</span>
+    <span style="color:var(--white)">FluxoCheck</span>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="prod-badge">Em desenvolvimento · Web + Mobile</div>
+  <h1 class="hero-h">Conformidade operacional<br>para toda a rede.</h1>
+  <p class="hero-sub">Checklists executados por cada unidade, divergências detectadas automaticamente e visão consolidada para a gestão. Saiba o que está acontecendo em cada ponto sem precisar estar lá.</p>
+  <div class="hero-btns">
+    <a href="mailto:lincolnqueiroz201@gmail.com?subject=Interesse%20FluxoCheck" class="btn-p">Solicitar acesso</a>
+    <a href="./index.html" class="btn-g">Ver todos os produtos</a>
+  </div>
+</section>
+
+<!-- SCREENSHOTS -->
+<div class="screenshots">
+  <div class="screens-grid">
+    <div class="screen-frame">
+      <div class="screen-topbar">
+        <span class="sd" style="background:#ef4444"></span>
+        <span class="sd" style="background:#f59e0b"></span>
+        <span class="sd" style="background:#22c55e"></span>
+      </div>
+      <img src="./imagens/fluxocheck_visao-da-rede_desktop.png" alt="FluxoCheck — visão geral da rede com 3 unidades, conformidade média 85%, divergências e status por unidade" width="2880" height="1800" />
+    </div>
+    <div class="phone-frame">
+      <img src="./imagens/fluxocheck_visao-da-rede_celular.png" alt="FluxoCheck versão mobile — controle da rede com métricas de unidades ativas e divergências" width="780" height="1688" />
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat"><div class="stat-n">85%</div><div class="stat-l">Conformidade média da rede (demo)</div></div>
+  <div class="stat"><div class="stat-n">136</div><div class="stat-l">Pontos de controle por catálogo</div></div>
+  <div class="stat"><div class="stat-n">3</div><div class="stat-l">Níveis de situação: Regular, Atenção, Crítico</div></div>
+  <div class="stat"><div class="stat-n">10</div><div class="stat-l">Modelos de relatório disponíveis</div></div>
+</div>
+
+<!-- FEATURES -->
+<section class="features">
+  <p class="sec-eyebrow">Funcionalidades</p>
+  <h2 class="sec-h">Visibilidade total,<br>sem complexidade.</h2>
+  <div class="feat-grid">
+    <div class="feat">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <div class="feat-h">Visão geral da rede</div>
+      <p class="feat-p">Dashboard gerencial com conformidade média de todas as unidades, divergências abertas e alertas. Um número diz o estado de toda a operação.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      </div>
+      <div class="feat-h">Checklists por ponto</div>
+      <p class="feat-p">Cada unidade executa checklists diários, semanais ou por turno. Pontos de controle personalizáveis com catálogo da rede ou local.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div class="feat-h">Divergências automáticas</div>
+      <p class="feat-p">O sistema detecta pontos não executados, respostas fora do padrão e atrasos — sem precisar que o gestor procure o problema.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      </div>
+      <div class="feat-h">Relatórios de conformidade</div>
+      <p class="feat-p">10 modelos de relatório por período, unidade ou tipo de checklist. Exportação para PDF ou tabela.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><path d="M22 17H2a3 3 0 0 0 3-3V9a7 7 0 0 1 14 0v5a3 3 0 0 0 3 3zm-8.27 4a2 2 0 0 1-3.46 0"/></svg>
+      </div>
+      <div class="feat-h">Alertas configuráveis</div>
+      <p class="feat-p">Receba alertas quando uma unidade atingir situação Crítica ou quando um ponto de controle não for executado no prazo.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </div>
+      <div class="feat-h">Desktop e mobile</div>
+      <p class="feat-p">Interface responsiva: gestão no desktop, execução dos checklists no celular diretamente da unidade, sem instalar nada.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STATUS TABLE -->
+<div class="status-section">
+  <p class="sec-eyebrow" style="margin-bottom:1rem">Exemplo de visão da rede</p>
+  <div class="status-table">
+    <div class="st-header">
+      <span>Unidade</span>
+      <span>Conformidade</span>
+      <span>Atrasos</span>
+      <span>Divergências</span>
+      <span>Situação</span>
+    </div>
+    <div class="st-row">
+      <span class="st-nm">Unidade A</span>
+      <span class="st-val">72%</span>
+      <span class="st-val">3</span>
+      <span class="st-val">4</span>
+      <span class="st-badge b-crit">Crítico</span>
+    </div>
+    <div class="st-row">
+      <span class="st-nm">Unidade B</span>
+      <span class="st-val">88%</span>
+      <span class="st-val">1</span>
+      <span class="st-val">1</span>
+      <span class="st-badge b-warn">Atenção</span>
+    </div>
+    <div class="st-row">
+      <span class="st-nm">Unidade C</span>
+      <span class="st-val">95%</span>
+      <span class="st-val">0</span>
+      <span class="st-val">0</span>
+      <span class="st-badge b-ok">Regular</span>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta">
+  <div class="cta-box">
+    <h2 class="cta-h">Interesse em acesso antecipado?</h2>
+    <p class="cta-s">O FluxoCheck está em desenvolvimento ativo. Entre em contato para participar do programa de acesso antecipado.</p>
+    <a href="mailto:lincolnqueiroz201@gmail.com?subject=Interesse%20FluxoCheck" class="btn-p">Solicitar acesso</a>
+    <p class="cta-note">Dados fictícios para demonstração. O produto está em desenvolvimento.</p>
+  </div>
+</div>
+
+<footer>
+  <span class="ft-left">© 2026 · Fluxo Ecossistema · Software com propósito, feito no Brasil.</span>
+  <div class="ft-right">
+    <a href="./index.html">Ecossistema</a>
+    <a href="./fluxo-mais.html">Fluxo+</a>
+    <a href="./escalas.html">Escalas</a>
+  </div>
+</footer>
+
+</body>
+</html>

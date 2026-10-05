@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fluxo Escalas — Gestão de escalas e turnos</title>
+  <meta name="description" content="Gestão de escalas e turnos para pequenas equipes. Geração automática, conflitos em tempo real, banco de horas." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..650&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:#050505;--surf:#0d0d0d;--s2:#111;
+      --brd:#1a1a1a;--brd2:#252525;
+      --muted:#787878;--dim:#999;--text:#bbb;--white:#efefef;
+      --lime:#a8e063;--limeb:rgba(168,224,99,.1);
+      --blue:#38bdf8;--blueb:rgba(56,189,248,.1);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(rgba(168,224,99,.045) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;z-index:-1}
+    a{color:inherit;text-decoration:none}
+    img{display:block}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1rem,4vw,2.5rem);background:rgba(5,5,5,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--brd)}
+    .nav-logo{display:flex;align-items:center;gap:.5rem;font-size:.82rem;font-weight:700;color:var(--white);letter-spacing:-.02em}
+    .nav-logo svg{width:22px;height:22px}
+    .nav-links{display:flex;align-items:center;gap:1.75rem}
+    .nav-links a{font-size:.78rem;font-weight:500;color:var(--muted);transition:color .15s}
+    .nav-links a:hover{color:var(--white)}
+    .btn-back{display:inline-flex;align-items:center;gap:.4rem;background:var(--lime);color:#060606;font-size:.78rem;font-weight:700;padding:.45em 1.1em;border-radius:8px;transition:opacity .15s}
+    .btn-back:hover{opacity:.85}
+
+    .bc{padding-top:80px;padding-bottom:.5rem;padding-inline:clamp(1.25rem,5vw,3rem);max-width:1100px;margin-inline:auto}
+    .bc-inner{display:flex;align-items:center;gap:.5rem;font-size:.72rem;color:var(--muted)}
+    .bc-inner a{color:var(--muted);transition:color .15s}
+    .bc-inner a:hover{color:var(--white)}
+    .bc-sep{opacity:.4}
+
+    /* HERO */
+    .hero{max-width:1100px;margin-inline:auto;padding:2.5rem clamp(1.25rem,5vw,3rem) 3rem}
+    .prod-badge{display:inline-flex;align-items:center;gap:.45rem;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);background:var(--blueb);border:1px solid rgba(56,189,248,.2);padding:.3em .75em;border-radius:6px;margin-bottom:1.2rem}
+    .hero-h{font-size:clamp(2.2rem,4.5vw,3.8rem);font-weight:800;letter-spacing:-.06em;color:var(--white);line-height:.92;margin-bottom:1.2rem}
+    .hero-sub{font-size:clamp(.88rem,1.2vw,.98rem);color:var(--dim);line-height:1.75;max-width:52ch;margin-bottom:2rem}
+    .hero-btns{display:flex;flex-wrap:wrap;gap:.65rem}
+    .btn-p{display:inline-flex;align-items:center;gap:.45rem;background:var(--white);color:#060606;font-size:.82rem;font-weight:700;padding:.6em 1.3em;border-radius:9px;letter-spacing:-.01em;transition:opacity .15s}
+    .btn-p:hover{opacity:.85}
+    .btn-g{display:inline-flex;align-items:center;gap:.45rem;background:transparent;color:var(--text);font-size:.82rem;font-weight:600;padding:.6em 1.3em;border-radius:9px;border:1px solid var(--brd2);letter-spacing:-.01em;transition:border-color .15s,color .15s}
+    .btn-g:hover{border-color:var(--muted);color:var(--white)}
+
+    /* SCREENSHOT */
+    .screenshot{max-width:1100px;margin-inline:auto;padding:0 clamp(1.25rem,5vw,3rem) 3rem}
+    .screen-frame{border-radius:16px;overflow:hidden;border:1px solid var(--brd);background:var(--surf);box-shadow:0 40px 80px rgba(0,0,0,.5)}
+    .screen-topbar{height:36px;background:var(--s2);display:flex;align-items:center;gap:.45rem;padding:0 1rem}
+    .sd{width:11px;height:11px;border-radius:50%}
+    .screen-frame img{width:100%;display:block}
+
+    /* FEATURES */
+    .features{max-width:1100px;margin-inline:auto;padding:4rem clamp(1.25rem,5vw,3rem)}
+    .sec-eyebrow{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem}
+    .sec-h{font-size:clamp(1.5rem,2.5vw,2rem);font-weight:800;letter-spacing:-.055em;color:var(--white);margin-bottom:2.5rem;line-height:1}
+    .feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--brd)}
+    .feat{background:var(--bg);padding:1.75rem 1.5rem}
+    .feat-icon{width:36px;height:36px;border-radius:10px;background:var(--blueb);border:1px solid rgba(56,189,248,.15);display:flex;align-items:center;justify-content:center;margin-bottom:1rem}
+    .feat-icon svg{width:16px;height:16px;stroke:var(--blue);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+    .feat-h{font-size:.88rem;font-weight:700;color:var(--white);letter-spacing:-.02em;margin-bottom:.4rem}
+    .feat-p{font-size:.78rem;color:var(--muted);line-height:1.65}
+
+    /* SPECS */
+    .specs{max-width:1100px;margin-inline:auto;padding:0 clamp(1.25rem,5vw,3rem) 4rem;display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+    .spec-block{border:1px solid var(--brd);border-radius:14px;padding:1.75rem}
+    .spec-label{font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem}
+    .spec-list{list-style:none;display:flex;flex-direction:column;gap:.55rem}
+    .spec-list li{font-size:.8rem;color:var(--text);display:flex;align-items:center;gap:.5rem}
+    .spec-list li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--blue);flex-shrink:0}
+
+    /* CTA */
+    .cta{max-width:1100px;margin-inline:auto;padding:0 clamp(1.25rem,5vw,3rem) 5rem;text-align:center}
+    .cta-box{border:1px solid var(--brd);border-radius:20px;padding:3.5rem 2rem;background:radial-gradient(ellipse at 50% 0%,rgba(56,189,248,.05),transparent 60%)}
+    .cta-h{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;letter-spacing:-.06em;color:var(--white);margin-bottom:.75rem;line-height:1}
+    .cta-s{font-size:.88rem;color:var(--muted);max-width:44ch;margin:0 auto 1.75rem}
+    .cta-note{font-size:.7rem;color:var(--dim);margin-top:.75rem}
+
+    footer{border-top:1px solid var(--brd);padding:1.5rem clamp(1.25rem,5vw,3rem);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+    .ft-left{font-size:.7rem;color:var(--muted)}
+    .ft-right{display:flex;gap:1.5rem}
+    .ft-right a{font-size:.72rem;color:var(--muted);transition:color .15s}
+    .ft-right a:hover{color:var(--white)}
+
+    @media(max-width:768px){
+      .feat-grid{grid-template-columns:1fr}
+      .specs{grid-template-columns:1fr}
+    }
+  </style>
+<link rel="stylesheet" href="tema.css?v=6" />
+</head>
+<body>
+
+<nav>
+  <a href="./index.html" class="nav-logo">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="var(--lime)"/></svg>
+    Fluxo Ecossistema
+  </a>
+  <div class="nav-links">
+    <a href="./index.html#ecossistema">Produtos</a>
+    <a href="./index.html" class="btn-back">← Ecossistema</a>
+  </div>
+</nav>
+
+<div class="bc">
+  <div class="bc-inner">
+    <a href="./index.html">Fluxo Ecossistema</a>
+    <span class="bc-sep">/</span>
+    <span style="color:var(--white)">Fluxo Escalas</span>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="prod-badge">Beta · Web</div>
+  <h1 class="hero-h">Escalas e turnos<br>sem planilha.</h1>
+  <p class="hero-sub">Monte e gerencie a escala de trabalho da sua equipe com geração automática, detecção de conflitos em tempo real e histórico completo de folgas e banco de horas.</p>
+  <div class="hero-btns">
+    <a href="mailto:lincolnqueiroz201@gmail.com?subject=Interesse%20Fluxo%20Escalas" class="btn-p">Entrar na lista de espera</a>
+    <a href="./index.html" class="btn-g">Ver todos os produtos</a>
+  </div>
+</section>
+
+<div class="screenshot">
+  <div class="screen-frame">
+    <div class="screen-topbar">
+      <span class="sd" style="background:#ef4444"></span>
+      <span class="sd" style="background:#f59e0b"></span>
+      <span class="sd" style="background:#22c55e"></span>
+    </div>
+    <img src="./imagens/escalas_escala-mensal_desktop.png" alt="Fluxo Escalas — tela de escala mensal com grade de colaboradores e turnos, Julho 2026" width="2880" height="1800" />
+  </div>
+</div>
+
+<section class="features">
+  <p class="sec-eyebrow">Funcionalidades</p>
+  <h2 class="sec-h">Gestão de equipe<br>sem atrito.</h2>
+  <div class="feat-grid">
+    <div class="feat">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <div class="feat-h">Escala mensal e semanal</div>
+      <p class="feat-p">Visualize toda a equipe em grade por dia do mês. Alterne entre visão mensal e semanal com um clique. Navegue entre meses com as setas.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div class="feat-h">Geração automática</div>
+      <p class="feat-p">Defina regras de jornada, folgas obrigatórias e restrições por colaborador. O sistema gera a escala respeitando todas as regras com um clique.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div class="feat-h">Detecção de conflitos</div>
+      <p class="feat-p">Alertas imediatos quando a escala viola regras: colaborador escalado no dia de folga, jornada acima do limite ou sobreposição de turnos.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <div class="feat-h">Banco de horas</div>
+      <p class="feat-p">Registre horas extras e folgas compensatórias automaticamente. Saldo de banco de horas por colaborador, mês a mês.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg>
+      </div>
+      <div class="feat-h">Trocas de escala</div>
+      <p class="feat-p">Gerencie solicitações de troca entre colaboradores com histórico completo e aprovação do gestor.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      </div>
+      <div class="feat-h">Impressão e exportação</div>
+      <p class="feat-p">Imprima a escala do mês formatada ou exporte para PDF. Layout otimizado para folha A4, com legenda de tipos de turno.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div class="feat-h">Multi-perfil</div>
+      <p class="feat-p">Cada colaborador tem seu perfil com restrições, função e histórico. O gestor vê toda a equipe; o colaborador vê apenas sua própria escala.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+      </div>
+      <div class="feat-h">Resumo do fim de semana</div>
+      <p class="feat-p">Painel lateral com quantos colaboradores trabalham no próximo sábado e domingo — e quem tem folga programada.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SPECS -->
+<div class="specs">
+  <div class="spec-block">
+    <div class="spec-label">Plataforma</div>
+    <ul class="spec-list">
+      <li>Web — Chrome, Firefox, Edge, Safari</li>
+      <li>Desktop e mobile responsivo</li>
+      <li>Sem instalação, acesso pelo navegador</li>
+    </ul>
+  </div>
+  <div class="spec-block">
+    <div class="spec-label">Tipos de turno suportados</div>
+    <ul class="spec-list">
+      <li>T — Trabalho regular</li>
+      <li>FS — Folga fixa semanal</li>
+      <li>FD — Folga domingo</li>
+      <li>FC — Folga compensatória</li>
+      <li>F — Férias · AT — Atestado · BH — Banco de horas · FT — Falta</li>
+    </ul>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta">
+  <div class="cta-box">
+    <h2 class="cta-h">Entre na lista de espera.</h2>
+    <p class="cta-s">O Fluxo Escalas está em beta fechado. Deixe seu contato e avise quando abrir para novos usuários.</p>
+    <a href="mailto:lincolnqueiroz201@gmail.com?subject=Interesse%20Fluxo%20Escalas" class="btn-p">Quero acesso beta</a>
+    <p class="cta-note">Sem spam. Só um aviso quando estiver pronto.</p>
+  </div>
+</div>
+
+<footer>
+  <span class="ft-left">© 2026 · Fluxo Ecossistema · Software com propósito, feito no Brasil.</span>
+  <div class="ft-right">
+    <a href="./index.html">Ecossistema</a>
+    <a href="./fluxo-mais.html">Fluxo+</a>
+  </div>
+</footer>
+
+</body>
+</html>

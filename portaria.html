@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fluxo Portaria — Controle de acesso para condomínios</title>
+  <meta name="description" content="Controle de entrada e saída de pessoas para condomínios. Em desenvolvimento." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..650&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#050505;--surf:#0d0d0d;--s2:#111;--brd:#1a1a1a;--brd2:#252525;--muted:#787878;--dim:#999;--text:#bbb;--white:#efefef;--lime:#a8e063;--limeb:rgba(168,224,99,.1);--amber:#f59e0b;--amberb:rgba(245,158,11,.1)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(rgba(168,224,99,.045) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;z-index:-1}
+    a{color:inherit;text-decoration:none}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1rem,4vw,2.5rem);background:rgba(5,5,5,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--brd)}
+    .nav-logo{display:flex;align-items:center;gap:.5rem;font-size:.82rem;font-weight:700;color:var(--white);letter-spacing:-.02em}
+    .nav-logo svg{width:22px;height:22px}
+    .nav-links{display:flex;align-items:center;gap:1.75rem}
+    .nav-links a{font-size:.78rem;font-weight:500;color:var(--muted);transition:color .15s}
+    .nav-links a:hover{color:var(--white)}
+    .btn-back{display:inline-flex;align-items:center;gap:.4rem;background:var(--lime);color:#060606;font-size:.78rem;font-weight:700;padding:.45em 1.1em;border-radius:8px;transition:opacity .15s}
+    .btn-back:hover{opacity:.85}
+
+    .bc{padding-top:80px;padding-bottom:.5rem;padding-inline:clamp(1.25rem,5vw,3rem);max-width:1100px;margin-inline:auto}
+    .bc-inner{display:flex;align-items:center;gap:.5rem;font-size:.72rem;color:var(--muted)}
+    .bc-inner a{color:var(--muted);transition:color .15s}
+    .bc-inner a:hover{color:var(--white)}
+    .bc-sep{opacity:.4}
+
+    .hero{max-width:1100px;margin-inline:auto;padding:3rem clamp(1.25rem,5vw,3rem) 4rem}
+    .prod-badge{display:inline-flex;align-items:center;gap:.45rem;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);background:var(--amberb);border:1px solid rgba(245,158,11,.2);padding:.3em .75em;border-radius:6px;margin-bottom:1.2rem}
+    .hero-h{font-size:clamp(2.2rem,4.5vw,3.8rem);font-weight:800;letter-spacing:-.06em;color:var(--white);line-height:.92;margin-bottom:1.2rem}
+    .hero-sub{font-size:clamp(.88rem,1.2vw,.98rem);color:var(--dim);line-height:1.75;max-width:50ch;margin-bottom:2.5rem}
+
+    .wip-box{border:1px solid rgba(245,158,11,.25);border-radius:20px;background:rgba(245,158,11,.04);padding:3rem 2rem;max-width:560px}
+    .wip-label{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:1rem}
+    .wip-h{font-size:1.3rem;font-weight:800;letter-spacing:-.04em;color:var(--white);margin-bottom:.6rem}
+    .wip-p{font-size:.82rem;color:var(--muted);line-height:1.7;margin-bottom:1.75rem}
+    .btn-p{display:inline-flex;align-items:center;gap:.45rem;background:var(--white);color:#060606;font-size:.82rem;font-weight:700;padding:.6em 1.3em;border-radius:9px;transition:opacity .15s}
+    .btn-p:hover{opacity:.85}
+
+    .features{max-width:1100px;margin-inline:auto;padding:0 clamp(1.25rem,5vw,3rem) 5rem}
+    .sec-eyebrow{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem}
+    .sec-h{font-size:clamp(1.3rem,2vw,1.7rem);font-weight:800;letter-spacing:-.05em;color:var(--white);margin-bottom:2rem;line-height:1}
+    .feat-list{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--brd)}
+    .feat{background:var(--bg);padding:1.5rem;display:flex;gap:1rem;align-items:flex-start}
+    .feat-icon{width:32px;height:32px;border-radius:8px;background:var(--amberb);border:1px solid rgba(245,158,11,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .feat-icon svg{width:14px;height:14px;stroke:var(--amber);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+    .feat-h{font-size:.85rem;font-weight:700;color:var(--white);letter-spacing:-.02em;margin-bottom:.25rem}
+    .feat-p{font-size:.76rem;color:var(--muted);line-height:1.6}
+
+    footer{border-top:1px solid var(--brd);padding:1.5rem clamp(1.25rem,5vw,3rem);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+    .ft-left{font-size:.7rem;color:var(--muted)}
+    .ft-right{display:flex;gap:1.5rem}
+    .ft-right a{font-size:.72rem;color:var(--muted);transition:color .15s}
+    .ft-right a:hover{color:var(--white)}
+
+    @media(max-width:640px){.feat-list{grid-template-columns:1fr}}
+  </style>
+<link rel="stylesheet" href="tema.css?v=6" />
+</head>
+<body>
+
+<nav>
+  <a href="./index.html" class="nav-logo">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="var(--lime)"/></svg>
+    Fluxo Ecossistema
+  </a>
+  <div class="nav-links">
+    <a href="./index.html#ecossistema">Produtos</a>
+    <a href="./index.html" class="btn-back">← Ecossistema</a>
+  </div>
+</nav>
+
+<div class="bc">
+  <div class="bc-inner">
+    <a href="./index.html">Fluxo Ecossistema</a>
+    <span class="bc-sep">/</span>
+    <span style="color:var(--white)">Fluxo Portaria</span>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="prod-badge">Em desenvolvimento</div>
+  <h1 class="hero-h">Controle de acesso<br>para condomínios.</h1>
+  <p class="hero-sub">Registre a entrada e saída de moradores, visitantes e prestadores de serviço. Histórico completo, notificações e integração com interfone IP.</p>
+
+  <div class="wip-box">
+    <div class="wip-label">Em construção</div>
+    <div class="wip-h">Produto em desenvolvimento ativo</div>
+    <p class="wip-p">O Fluxo Portaria ainda não tem versão pública disponível. Deixe seu contato para ser avisado quando abrir o acesso beta.</p>
+    <a href="mailto:lincolnqueiroz201@gmail.com?subject=Interesse%20Fluxo%20Portaria" class="btn-p">Me avise quando lançar</a>
+  </div>
+</section>
+
+<section class="features">
+  <p class="sec-eyebrow">O que está sendo construído</p>
+  <h2 class="sec-h">Funcionalidades previstas.</h2>
+  <div class="feat-list">
+    <div class="feat">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+      <div>
+        <div class="feat-h">Registro de visitantes</div>
+        <p class="feat-p">Cadastro rápido com nome, documento, destino e foto. Autorização pelo morador via notificação no celular.</p>
+      </div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+      <div>
+        <div class="feat-h">Controle de acesso</div>
+        <p class="feat-p">Liberação ou bloqueio de entrada por unidade. Registro de todos os acessos com horário e porteiro responsável.</p>
+      </div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M22 17H2a3 3 0 0 0 3-3V9a7 7 0 0 1 14 0v5a3 3 0 0 0 3 3zm-8.27 4a2 2 0 0 1-3.46 0"/></svg></div>
+      <div>
+        <div class="feat-h">Notificações ao morador</div>
+        <p class="feat-p">Alerta em tempo real quando alguém chega para a unidade. O morador autoriza ou nega direto do celular.</p>
+      </div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+      <div>
+        <div class="feat-h">Relatórios e histórico</div>
+        <p class="feat-p">Histórico completo de movimentações por data, unidade ou pessoa. Exportação para síndico ou administradora.</p>
+      </div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+      <div>
+        <div class="feat-h">App para porteiro</div>
+        <p class="feat-p">Interface mobile simplificada para o porteiro registrar entradas e consultar autorizações mesmo sem internet.</p>
+      </div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M22 12h-2M19.07 19.07l-1.41-1.41M12 22v-2M4.93 19.07l1.41-1.41M2 12h2M4.93 4.93l1.41 1.41"/></svg></div>
+      <div>
+        <div class="feat-h">Encomendas e correspondências</div>
+        <p class="feat-p">Registro de pacotes recebidos com notificação ao morador. Confirmação de retirada com assinatura digital.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="ft-left">© 2026 · Fluxo Ecossistema · Software com propósito, feito no Brasil.</span>
+  <div class="ft-right">
+    <a href="./index.html">Ecossistema</a>
+    <a href="./fluxo-mais.html">Fluxo+</a>
+  </div>
+</footer>
+
+</body>
+</html>
