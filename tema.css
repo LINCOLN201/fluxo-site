@@ -286,3 +286,10 @@ nav a, nav .logo-t { white-space: nowrap; }
 .dl-top .prod-tag { font-size: .7rem; font-weight: 500; color: var(--muted); border: 1px solid var(--brd2);
   padding: .16em .7em; border-radius: 100px; white-space: nowrap; }
 .dl-top .prod-tag.bt { color: var(--white); border-color: rgba(255,255,255,.3); background: rgba(255,255,255,.08); }
+
+/* logos de produto */
+.prod-logo { display: block; width: 72px; height: 72px; border-radius: 18px; margin: 0 0 18px; }
+.dl-top .dl-logo { width: 36px; height: 36px; border-radius: 9px; flex: none; }
+.dl-top h2 { margin-right: auto; }
+.prow { grid-template-columns: auto 1fr auto auto; }
+.prow-logo { width: 40px; height: 40px; border-radius: 10px; }
