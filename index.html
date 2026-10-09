@@ -28,7 +28,7 @@
 
 <header class="h-hero">
   <div class="h-wrap">
-    <a class="h-pill" href="./fluxo-mais.html"><i></i>Fluxo+ <code data-gh-tag>v0.6.14</code> disponível <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <a class="h-pill" href="./fluxo-mais.html"><i></i>Fluxo+ <code data-gh-tag>v0.6.16</code> disponível <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     <h1>Sistemas de gestão que funcionam offline.</h1>
     <p class="h-sub">Finanças pessoais, escalas de equipe e conformidade operacional. Dados no dispositivo, nuvem opcional e código aberto.</p>
     <div class="h-cta">
@@ -77,7 +77,7 @@
     <div class="h-prods h-x">
       <a class="h-prod h-spot" href="./fluxo-mais.html">
         <div class="pshot"><img src="./imagens/fluxo-mais_relatorios_celular-android.png" alt="Fluxo+: relatórios" loading="lazy"></div>
-        <div class="body"><div class="top"><h3>Fluxo+</h3><span class="h-st on">Disponível · v0.6</span></div>
+        <div class="body"><div class="top"><h3>Fluxo+</h3><span class="h-st on">Disponível · <span data-gh-tag>v0.6.16</span></span></div>
           <p>Controle receitas, despesas e metas sem depender de servidor. Android, Windows e Linux.</p>
           <span class="go">Ver produto <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       </a>
@@ -142,7 +142,7 @@
       <div class="h-repo h-spot">
         <header><b>Repositório do Fluxo+</b><span class="live"><i></i>GitHub ao vivo</span></header>
         <dl>
-          <div><dt>Última versão</dt><dd data-gh-tag>v0.6.14</dd></div>
+          <div><dt>Última versão</dt><dd data-gh-tag>v0.6.16</dd></div>
           <div><dt>Linguagem</dt><dd id="gh-lang">—</dd></div>
           <div><dt>Licença</dt><dd>MIT</dd></div>
           <div><dt>Último push</dt><dd id="gh-push">—</dd></div>
@@ -180,7 +180,7 @@
   <div class="h-wrap">
     <div class="h-nums h-x">
       <div><b>3</b><span>Produtos em desenvolvimento</span></div>
-      <div><b data-gh-tag>v0.6.14</b><span>Versão atual do Fluxo+</span></div>
+      <div><b data-gh-tag>v0.6.16</b><span>Versão atual do Fluxo+</span></div>
       <div><b>MIT</b><span>Licença open source</span></div>
       <div><b>0</b><span>Analytics ou rastreadores</span></div>
     </div>
@@ -215,24 +215,12 @@
 <script>
 (function () {
   var reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // cruzes de registro nos cantos
-  document.querySelectorAll('.h-x').forEach(function (el) {
-    ['a', 'b', 'c', 'd'].forEach(function (c) { var i = document.createElement('i'); i.className = 'x ' + c; el.appendChild(i); });
-  });
-  // holofote seguindo o cursor
-  document.addEventListener('pointermove', function (e) {
-    var t = e.target.closest && e.target.closest('.h-spot'); if (!t) return;
-    var r = t.getBoundingClientRect(); t.style.setProperty('--mx', (e.clientX - r.left) + 'px'); t.style.setProperty('--my', (e.clientY - r.top) + 'px');
-  }, { passive: true });
-
   // dados públicos do repositório (API pública do GitHub, sem chave); se falhar, ficam os valores padrão
-  var tag = 'v0.6.14';
+  function tag() { var e = document.querySelector('[data-gh-tag]'); return e ? e.textContent : ''; }
   function ago(d) { var s = (Date.now() - new Date(d)) / 1000, u = [[86400, 'dia'], [3600, 'h'], [60, 'min']];
     for (var i = 0; i < u.length; i++) if (s >= u[i][0]) { var n = Math.floor(s / u[i][0]); return 'há ' + n + (u[i][1] === 'dia' ? ' dia' + (n > 1 ? 's' : '') : u[i][1]); } return 'agora'; }
   fetch('https://api.github.com/repos/LINCOLN201/Fluxo-Plus').then(function (r) { return r.ok ? r.json() : Promise.reject(); }).then(function (j) {
     if (j.language) document.getElementById('gh-lang').textContent = j.language; document.getElementById('gh-push').textContent = ago(j.pushed_at); }).catch(function () {});
-  fetch('https://api.github.com/repos/LINCOLN201/Fluxo-Plus/releases/latest').then(function (r) { return r.ok ? r.json() : Promise.reject(); }).then(function (j) {
-    if (j.tag_name) { tag = j.tag_name; document.querySelectorAll('[data-gh-tag]').forEach(function (e) { e.textContent = tag; }); } }).catch(function () {});
 
   // terminal: digita quando aparece na tela
   var out = document.getElementById('term-out'), term = document.getElementById('term'), rodou = false;
@@ -242,7 +230,7 @@
     ['p', '$ ', 'head -1 LICENSE'],
     ['ok', '', 'MIT License'],
     ['p', '$ ', 'git describe --tags'],
-    ['ok', '', tag] ]; }
+    ['ok', '', tag()] ]; }
   function esc(t) { return t.replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); }
   function render(L, upto, chars) {
     var h = ''; for (var i = 0; i < L.length; i++) { if (i > upto) break; var l = L[i], t = i === upto ? l[2].slice(0, chars) : l[2];
@@ -258,5 +246,6 @@
   if ('IntersectionObserver' in window) { new IntersectionObserver(function (e, o) { if (e[0].isIntersecting) { rodar(); o.disconnect(); } }, { threshold: .4 }).observe(term); } else { rodar(); }
 })();
 </script>
+<script src="site.js?v=2" defer></script>
 </body>
 </html>
