@@ -20,4 +20,31 @@
       .then(function (j) { if (j.tag_name) { aplica(j.tag_name); try { localStorage.setItem(CHAVE, j.tag_name); } catch (e) {} } })
       .catch(function () {});
   }
+
+  // Menu de download: a pessoa escolhe o sistema; o dela vem marcado e em primeiro.
+  var ua = navigator.userAgent || '', so =
+    /android/i.test(ua) ? 'android' :
+    /iphone|ipad|ipod/i.test(ua) || (/macintosh/i.test(ua) && navigator.maxTouchPoints > 1) ? 'apple' :
+    /windows/i.test(ua) ? 'windows' :
+    /macintosh|mac os x/i.test(ua) ? 'apple' :
+    /linux|x11|cros/i.test(ua) ? 'linux' : '';
+  document.querySelectorAll('[data-dl]').forEach(function (m) {
+    var btn = m.querySelector('.dl-btn'), pop = m.querySelector('.dl-pop');
+    var rec = so && pop.querySelector('.dl-op[data-os="' + so + '"]');
+    if (rec) { rec.classList.add('rec'); pop.insertBefore(rec, pop.querySelector('.dl-op')); }
+    if (so === 'apple') pop.querySelector('.dl-nota').hidden = false;
+    function itens() { return [].slice.call(pop.querySelectorAll('[role="menuitem"]')); }
+    function abre(foco) { pop.hidden = false; btn.setAttribute('aria-expanded', 'true'); if (foco) itens()[0].focus(); }
+    function fecha(volta) { if (pop.hidden) return; pop.hidden = true; btn.setAttribute('aria-expanded', 'false'); if (volta) btn.focus(); }
+    btn.addEventListener('click', function () { pop.hidden ? abre(false) : fecha(false); });
+    btn.addEventListener('keydown', function (e) { if (e.key === 'ArrowDown') { e.preventDefault(); abre(true); } });
+    pop.addEventListener('keydown', function (e) {
+      var l = itens(), i = l.indexOf(document.activeElement);
+      if (e.key === 'Escape') { e.preventDefault(); fecha(true); }
+      else if (e.key === 'ArrowDown') { e.preventDefault(); l[(i + 1) % l.length].focus(); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); l[(i - 1 + l.length) % l.length].focus(); }
+      else if (e.key === 'Tab') { fecha(false); }
+    });
+    document.addEventListener('click', function (e) { if (!m.contains(e.target)) fecha(false); });
+  });
 })();
