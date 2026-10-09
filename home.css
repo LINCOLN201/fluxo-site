@@ -5,13 +5,6 @@ body { font-family: var(--fonte); color: var(--text); -webkit-font-smoothing: an
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 
-.h-wrap { width: min(1200px, 100% - 2.5rem); margin-inline: auto; }
-
-/* menu */
-nav { display: flex; align-items: center; justify-content: space-between; position: fixed; z-index: 50; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
-.logo img { height: 28px; width: auto; }
-.nav-r { display: flex; align-items: center; gap: 1.6rem; }
-.nav-dl { font-size: .8rem; padding: .42rem .9rem; }
 
 /* herói */
 .h-hero { position: relative; padding: 148px 0 0; text-align: center; }
@@ -109,17 +102,6 @@ nav { display: flex; align-items: center; justify-content: space-between; positi
 .h-end h2 { font-size: clamp(2.2rem, 5vw, 4rem); letter-spacing: -.055em !important; line-height: 1.02 !important; color: #fff; text-wrap: balance; }
 .h-end p { margin: 1.2rem auto 0; color: var(--dim); max-width: 46ch; }
 
-/* rodapé */
-.h-foot { border-top: 1px solid var(--brd); padding: 3.5rem 0 2rem; }
-.h-foot .fgrid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem; }
-.h-foot .brand img { height: 26px; width: auto; margin-bottom: 1rem; opacity: .95; }
-.h-foot .brand p { font-size: .84rem; color: var(--muted); max-width: 34ch; line-height: 1.6; }
-.h-foot h4 { font-size: .8rem; font-weight: 550; color: #fff; margin-bottom: .9rem; text-transform: none; letter-spacing: 0; }
-.h-foot li { list-style: none; margin-bottom: .55rem; }
-.h-foot li a { font-size: .84rem; color: var(--muted); transition: color .15s; } .h-foot li a:hover { color: #fff; }
-.h-foot .bot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .6rem; margin-top: 3rem; padding-top: 1.4rem; border-top: 1px solid var(--brd); font-size: .76rem; color: var(--muted); }
-.h-foot .bot .mono { font-family: var(--mono); }
-
 /* responsivo */
 @media (max-width: 960px) {
   .h-stage { grid-template-columns: 1fr minmax(190px, 230px) 1fr; gap: 0 1rem; padding-inline: 1rem; height: 520px; }
@@ -130,7 +112,6 @@ nav { display: flex; align-items: center; justify-content: space-between; positi
   .h-pri { grid-template-columns: 1fr; }
   .h-pri > div, .h-pri > div + div { padding: 1.8rem 0; border-left: 0; border-top: 1px solid var(--brd); } .h-pri > div:first-child { border-top: 0; }
   .h-nums { grid-template-columns: 1fr 1fr; } .h-nums > div:nth-child(3) { border-left: 0; } .h-nums > div:nth-child(n+3) { border-top: 1px solid var(--brd); }
-  .h-foot .fgrid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 720px) {
   .h-hero { padding-top: 112px; }
@@ -144,32 +125,15 @@ nav { display: flex; align-items: center; justify-content: space-between; positi
   .h-chip b { font-size: .72rem; }
   .h-spec span { padding: .8rem 1rem; font-size: .7rem; }
   .h-sec { padding-top: 4.5rem; }
-  .nav-r .nav-lk { display: none; }
 }
-@media (max-width: 460px) { .h-foot .fgrid { grid-template-columns: 1fr; } .h-nums > div { padding: 1.4rem 1rem; } }
+@media (max-width: 460px) { .h-nums > div { padding: 1.4rem 1rem; } }
 @media (prefers-reduced-motion: reduce) { .h-chip { animation: none; } html { scroll-behavior: auto; } }
 
 /* ═══ Camada tech: feixe, cruzes de registro, holofote, terminal, arquitetura ═══ */
-.h-x { position: relative; }
-.h-x > i.x { position: absolute; width: 13px; height: 13px; pointer-events: none; z-index: 4;
-  background: linear-gradient(#fff, #fff) center / 1px 100% no-repeat, linear-gradient(#fff, #fff) center / 100% 1px no-repeat; opacity: .5; }
-.h-x > i.x.a { top: -7px; left: -7px; } .h-x > i.x.b { top: -7px; right: -7px; }
-.h-x > i.x.c { bottom: -7px; left: -7px; } .h-x > i.x.d { bottom: -7px; right: -7px; }
-
 /* feixe de luz correndo na borda do palco */
 .h-stage::before { content: ''; position: absolute; top: 0; left: 0; width: 38%; height: 1px; z-index: 5; pointer-events: none;
   background: linear-gradient(90deg, transparent, var(--sinal), #fff, transparent); animation: h-beam 6.5s cubic-bezier(.5,0,.3,1) infinite; }
 @keyframes h-beam { from { transform: translateX(-100%); } to { transform: translateX(380%); } }
-
-/* holofote que segue o cursor */
-.h-spot { position: relative; isolation: isolate; }
-.h-spot::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0; transition: opacity .3s;
-  background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), rgba(79,209,255,.13), transparent 62%); }
-.h-spot:hover::before { opacity: 1; }
-.h-spot::after { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s; border-radius: inherit;
-  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.07), transparent 65%); mix-blend-mode: screen; }
-.h-spot:hover::after { opacity: 1; }
-.h-prod.h-spot::after { display: none; }
 
 /* arquitetura: onde ficam os dados */
 .h-arq { display: grid; grid-template-columns: 1.25fr auto 1fr; align-items: stretch; gap: 0; }

@@ -113,17 +113,19 @@
     }
   </style>
 <link rel="stylesheet" href="tema.css?v=8" />
+  <link rel="stylesheet" href="site.css?v=5" />
   <link rel="icon" type="image/png" href="assets/favicon.png" />
 </head>
-<body>
+<body class="pg-prod">
 
-<nav>
-  <a href="./index.html" class="nav-logo">
-    <img src="assets/logo-fluxo.png" alt="Fluxo Ecossistema" width="104" height="39" style="height:30px;width:auto;display:block">
-  </a>
-  <div class="nav-links">
-    <a href="./index.html#ecossistema">Produtos</a>
-    <a href="./index.html" class="btn-back">← Ecossistema</a>
+<nav aria-label="Principal">
+  <a class="logo" href="index.html"><img src="assets/logo-fluxo.png" alt="Fluxo Ecossistema" width="75" height="28"></a>
+  <div class="nav-r">
+    <a class="nav-lk" href="index.html#produtos">Produtos</a>
+    <a class="nav-lk" href="suporte.html">Suporte</a>
+    <a class="nav-lk" href="politicas.html">Políticas</a>
+    <a class="nav-lk" href="https://github.com/LINCOLN201/Fluxo-Plus" target="_blank" rel="noopener">GitHub</a>
+    <a class="nav-dl" href="baixar.html">Baixar</a>
   </div>
 </nav>
 
@@ -163,7 +165,7 @@
 </div>
 
 <!-- STATS -->
-<div class="stats-bar">
+<div class="stats-bar h-x">
   <div class="stat"><div class="stat-n">85%</div><div class="stat-l">Conformidade média da rede (demo)</div></div>
   <div class="stat"><div class="stat-n">136</div><div class="stat-l">Pontos de controle por catálogo</div></div>
   <div class="stat"><div class="stat-n">3</div><div class="stat-l">Níveis de situação: Regular, Atenção, Crítico</div></div>
@@ -174,43 +176,43 @@
 <section class="features">
   <p class="sec-eyebrow">Funcionalidades</p>
   <h2 class="sec-h">Visibilidade total,<br>sem complexidade.</h2>
-  <div class="feat-grid">
-    <div class="feat">
+  <div class="feat-grid h-x">
+    <div class="feat h-spot">
       <div class="feat-icon">
         <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       </div>
       <div class="feat-h">Visão geral da rede</div>
       <p class="feat-p">Dashboard gerencial com conformidade média de todas as unidades, divergências abertas e alertas. Um número diz o estado de toda a operação.</p>
     </div>
-    <div class="feat">
+    <div class="feat h-spot">
       <div class="feat-icon">
         <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
       </div>
       <div class="feat-h">Checklists por ponto</div>
       <p class="feat-p">Cada unidade executa checklists diários, semanais ou por turno. Pontos de controle personalizáveis com catálogo da rede ou local.</p>
     </div>
-    <div class="feat">
+    <div class="feat h-spot">
       <div class="feat-icon">
         <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       </div>
       <div class="feat-h">Divergências automáticas</div>
       <p class="feat-p">O sistema detecta pontos não executados, respostas fora do padrão e atrasos — sem precisar que o gestor procure o problema.</p>
     </div>
-    <div class="feat">
+    <div class="feat h-spot">
       <div class="feat-icon">
         <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
       </div>
       <div class="feat-h">Relatórios de conformidade</div>
       <p class="feat-p">10 modelos de relatório por período, unidade ou tipo de checklist. Exportação para PDF ou tabela.</p>
     </div>
-    <div class="feat">
+    <div class="feat h-spot">
       <div class="feat-icon">
         <svg viewBox="0 0 24 24"><path d="M22 17H2a3 3 0 0 0 3-3V9a7 7 0 0 1 14 0v5a3 3 0 0 0 3 3zm-8.27 4a2 2 0 0 1-3.46 0"/></svg>
       </div>
       <div class="feat-h">Alertas configuráveis</div>
       <p class="feat-p">Receba alertas quando uma unidade atingir situação Crítica ou quando um ponto de controle não for executado no prazo.</p>
     </div>
-    <div class="feat">
+    <div class="feat h-spot">
       <div class="feat-icon">
         <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
       </div>
@@ -265,14 +267,19 @@
   </div>
 </div>
 
-<footer>
-  <span class="ft-left">© 2026 · Fluxo Ecossistema · Software com propósito, feito no Brasil.</span>
-  <div class="ft-right">
-    <a href="./index.html">Ecossistema</a>
-    <a href="./fluxo-mais.html">Fluxo+</a>
-    <a href="./escalas.html">Escalas</a>
+<footer class="h-foot">
+  <div class="h-wrap">
+    <div class="fgrid">
+      <div class="brand"><img src="assets/logo-fluxo.png" alt="Fluxo Ecossistema" width="75" height="28"><p>Estúdio de software brasileiro. Ferramentas abertas, offline-first e respeitosas. Atendimento somente por e-mail.</p></div>
+      <div><h4>Produtos</h4><ul><li><a href="fluxo-mais.html">Fluxo+</a></li><li><a href="escalas.html">Escalas</a></li><li><a href="fluxocheck.html">FluxoCheck</a></li><li><a href="baixar.html">Baixar</a></li><li><a href="https://github.com/LINCOLN201/Fluxo-Plus" target="_blank" rel="noopener">GitHub</a></li></ul></div>
+      <div><h4>Suporte</h4><ul><li><a href="suporte.html">Central de ajuda</a></li><li><a href="contato.html">Fale conosco</a></li><li><a href="status.html">Status dos sistemas</a></li><li><a href="seguranca.html">Segurança</a></li></ul></div>
+      <div><h4>Políticas</h4><ul><li><a href="termos.html">Termos de uso</a></li><li><a href="privacidade.html">Privacidade</a></li><li><a href="cookies.html">Cookies</a></li><li><a href="uso-aceitavel.html">Uso aceitável</a></li><li><a href="reembolso.html">Reembolso</a></li></ul></div>
+      <div><h4>Empresa</h4><ul><li><a href="sobre.html">Sobre</a></li><li><a href="marca.html">Marca e direitos</a></li><li><a href="imprensa.html">Imprensa</a></li><li><a href="mapa-do-site.html">Mapa do site</a></li></ul></div>
+    </div>
+    <div class="bot"><span>© 2026 Fluxo Ecossistema™ · Lincoln Queiroz · Feito no Brasil</span><span>Contato: <a href="mailto:fluxoecossistema@gmail.com">fluxoecossistema@gmail.com</a></span></div>
   </div>
 </footer>
 
+<script src="site.js?v=1" defer></script>
 </body>
 </html>
