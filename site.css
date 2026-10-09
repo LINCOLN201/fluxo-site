@@ -112,3 +112,18 @@ footer.h-foot .fgrid > div { min-width: 0; }
 .pg-inst .grid > :first-child { border-top-left-radius: 10px !important; }
 .pg-prod, .pg-inst { overflow-x: clip; }
 @media (max-width: 720px) { .h-x > i.x { display: none; } }
+
+/* carta do fundador (Sobre) */
+/* texto longo alinhado à esquerda com o título da página */
+.pg-inst .wrap.prose { max-width: 1100px; }
+.pg-inst .wrap.prose > * { max-width: 74ch; }
+.carta { max-width: 720px; }
+.carta { margin: 1rem 0 3rem; padding: 2.4rem 2.4rem 2rem; border: 1px solid var(--brd2); border-radius: 12px;
+  background: radial-gradient(80% 60% at 0 0, rgba(79,209,255,.06), transparent 70%), #050505; }
+.carta-k { font-family: var(--mono); font-size: .76rem; color: var(--sinal); margin-bottom: .9rem; }
+.carta h2 { font-size: clamp(1.5rem, 2.6vw, 2rem) !important; letter-spacing: -.04em !important; line-height: 1.1 !important; color: #fff; margin: 0 0 1.4rem !important; font-weight: 600 !important; }
+.carta p:not(.carta-k) { font-size: 1.02rem; line-height: 1.75; color: var(--text); margin-bottom: 1rem; max-width: 60ch; }
+.carta-ass { display: flex; align-items: center; gap: .9rem; margin-top: 1.8rem; padding-top: 1.3rem; border-top: 1px solid var(--brd); }
+.carta-ass img { height: 22px; width: auto; }
+.carta-ass span { font-family: var(--mono); font-size: .76rem; color: var(--muted); }
+@media (max-width: 560px) { .carta { padding: 1.6rem 1.3rem 1.4rem; } }
