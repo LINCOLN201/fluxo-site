@@ -17,7 +17,7 @@
   --lime:   #f2f2f4;
   --lime-lt:#ffffff;
   --limeb:  rgba(255,255,255,.1);
-  --fonte:  'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fonte:  'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono:   'Geist Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   --sinal:  #4fd1ff;              /* único acento: sinal de estado, linhas-guia e foco */
   --sinal-b: rgba(79,209,255,.35);
@@ -372,3 +372,47 @@ nav, nav.top { border-color: rgba(148,163,184,.18) !important;
 h1, .hero-h { font-size: clamp(2.4rem, 4vw, 3.5rem) !important; text-wrap: balance; }
 .hero-btns { gap: .5rem; }
 .hero-btns .btn-p, .hero-btns .btn-g { padding: .62rem 1rem !important; font-size: .8rem; }
+
+/* ═══════════════════════════════════════════════════════════════
+   Padrão profissional — preto absoluto, filetes finos, Geist.
+   Tudo plano: sem brilho nem vidro; a hierarquia vem do espaço e do filete.
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  --bg: #000; --bg2: #000; --surf: #0a0a0a; --s2: #111;
+  --brd: rgba(255,255,255,.09); --brd2: rgba(255,255,255,.16);
+  --muted: #8f8f95; --dim: #a8a8ae; --text: #b4b4ba; --white: #fff;
+  --raio: 8px;
+}
+html { background: #000 !important; }
+body { background: transparent !important; letter-spacing: -.003em; }
+body::before { -webkit-mask-image: radial-gradient(70% 80% at 50% 0, #000 10%, transparent 75%); mask-image: radial-gradient(70% 80% at 50% 0, #000 10%, transparent 75%);
+  background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px) !important; }
+
+/* menu: barra plana de ponta a ponta */
+nav, nav.top {
+  top: 0 !important; left: 0 !important; right: 0 !important; transform: none !important; width: auto !important;
+  height: 56px !important; border-radius: 0 !important; box-shadow: none !important;
+  padding: 0 max(1.25rem, calc((100vw - 1200px) / 2 + 1.25rem)) !important;
+  background: rgba(0,0,0,.72) !important; border: 0 !important; border-bottom: 1px solid var(--brd) !important;
+}
+.nav-links a, .nav-lk { font-size: .82rem !important; font-weight: 450; color: var(--muted); }
+.nav-links a:hover, .nav-lk:hover { color: var(--white); }
+
+/* botões: planos, sem brilho */
+.btn-p, .nav-dl, .btn-dl {
+  background: #fff !important; color: #000 !important; font-weight: 550 !important; border-radius: var(--raio) !important;
+  box-shadow: none !important; transition: background .15s, transform .15s !important;
+}
+.btn-p::after, .nav-dl::after, .btn-dl::after { display: none !important; }
+.btn-p:hover, .nav-dl:hover, .btn-dl:hover { background: #e4e4e7 !important; transform: none; box-shadow: none !important; }
+.nav-dl, .btn-dl, nav .btn-p { border-radius: 6px !important; }
+.btn-g { background: #000 !important; border: 1px solid var(--brd2) !important; border-radius: var(--raio) !important; box-shadow: none !important; }
+.btn-g:hover { background: #111 !important; border-color: rgba(255,255,255,.3) !important; }
+
+/* cartões e molduras: raio pequeno e filete */
+.card, .feat, .stat, .plat, .price-card, .dl-card, .screen-wrap, .screen-frame, .panels { border-radius: 10px !important; }
+.card, .feat, .plat, .price-card, .dl-card { background-image: none !important; background-color: var(--surf); }
+.feat-grid, .grid, .stats-bar { border-radius: 10px; border-color: var(--brd); }
+.screen-wrap, .screen-frame { box-shadow: 0 0 0 1px var(--brd) !important; }
+footer, footer.gf { background: #000; border-top: 1px solid var(--brd); }
+h1, h2, .hero-h { font-weight: 600 !important; }
