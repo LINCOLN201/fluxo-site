@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="tema.css?v=8" />
-  <link rel="stylesheet" href="home.css?v=3" />
+  <link rel="stylesheet" href="home.css?v=4" />
   <link rel="icon" type="image/png" href="assets/favicon.png" />
 </head>
 <body>
@@ -26,7 +26,7 @@
 
 <header class="h-hero">
   <div class="h-wrap">
-    <a class="h-pill" href="./fluxo-mais.html"><i></i>Fluxo+ <code>v0.6.14</code> já está disponível <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <a class="h-pill" href="./fluxo-mais.html"><i></i>Fluxo+ <code data-gh-tag>v0.6.14</code> já está disponível <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     <h1>Software que respeita quem usa.</h1>
     <p class="h-sub">Ferramentas práticas, abertas e que funcionam sem depender de servidores de terceiros. Seus dados ficam com você.</p>
     <div class="h-cta">
@@ -35,7 +35,7 @@
     </div>
     <p class="h-os">Android · Windows · Linux</p>
 
-    <div class="h-stage">
+    <div class="h-stage h-x h-spot">
       <div class="h-col l">
         <div class="h-chips">
           <div class="h-chip " style="--d:0s"><span class="i"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 6a9 9 0 0 1 13 0M3.8 8.6a5.7 5.7 0 0 1 8.4 0M6.2 11.2a2.4 2.4 0 0 1 3.6 0M2 2l12 12"/></svg></span><span><b>Funciona offline</b><small>Sem internet, sem espera</small></span></div>
@@ -72,20 +72,20 @@
       <h2>Três produtos. Um propósito.</h2>
       <p class="s">Cada ferramenta resolve um problema do dia a dia e segue as mesmas regras: funciona offline, é auditável e não vende seus dados.</p>
     </div>
-    <div class="h-prods">
-      <a class="h-prod" href="./fluxo-mais.html">
+    <div class="h-prods h-x">
+      <a class="h-prod h-spot" href="./fluxo-mais.html">
         <div class="pshot"><img src="./imagens/fluxo-mais_relatorios_celular-android.png" alt="Fluxo+: relatórios" loading="lazy"></div>
         <div class="body"><div class="top"><h3>Fluxo+</h3><span class="h-st on">Disponível · v0.6</span></div>
           <p>Finanças pessoais offline-first. Despesas, metas e relatórios no seu aparelho, em Android, Windows e Linux.</p>
           <span class="go">Ver produto <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       </a>
-      <a class="h-prod" href="./escalas.html">
+      <a class="h-prod h-spot" href="./escalas.html">
         <div class="pshot wide"><img src="./imagens/escalas_escala-mensal_desktop.png" alt="Fluxo Escalas: escala mensal" loading="lazy"></div>
         <div class="body"><div class="top"><h3>Fluxo Escalas</h3><span class="h-st">Beta</span></div>
           <p>Gestão de escalas e turnos para pequenas equipes, com folgas, conflitos e banco de horas.</p>
           <span class="go">Ver produto <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       </a>
-      <a class="h-prod" href="./fluxocheck.html">
+      <a class="h-prod h-spot" href="./fluxocheck.html">
         <div class="pshot"><img src="./imagens/fluxocheck_visao-da-rede_celular.png" alt="FluxoCheck: visão da rede" loading="lazy"></div>
         <div class="body"><div class="top"><h3>FluxoCheck</h3><span class="h-st">Em desenvolvimento</span></div>
           <p>Checklists com histórico, alertas e relatórios de conformidade.</p>
@@ -95,10 +95,66 @@
   </div>
 </section>
 
+
+<section class="h-sec" id="dados">
+  <div class="h-wrap">
+    <div class="h-head">
+      <p class="k">Arquitetura</p>
+      <h2>Seus dados moram no seu aparelho.</h2>
+      <p class="s">O app lê e grava em um banco local. A nuvem só entra em cena se você ligar a sincronização.</p>
+    </div>
+    <div class="h-arq h-x h-spot">
+      <div class="h-node local">
+        <h3>Seu aparelho <small>padrão</small></h3>
+        <ul>
+          <li class="on">App Fluxo+ <code>lê e grava</code></li>
+          <li class="on">Banco SQLCipher <code>criptografado</code></li>
+          <li class="on">Funciona sem rede <code>offline-first</code></li>
+        </ul>
+      </div>
+      <div class="h-link"><span>opcional</span></div>
+      <div class="h-node off">
+        <h3>Nuvem <small>só se você ativar</small></h3>
+        <ul>
+          <li>Sincronização entre aparelhos <code>desligada</code></li>
+          <li>Backup na nuvem <code>desligado</code></li>
+        </ul>
+      </div>
+    </div>
+    <div class="h-arq-foot"><code>analytics</code><span><s>Rastreadores e análise de comportamento</s> — não existem no app.</span></div>
+  </div>
+</section>
+
+<section class="h-sec" id="codigo">
+  <div class="h-wrap">
+    <div class="h-head">
+      <p class="k">Código aberto</p>
+      <h2>Não confie. Leia o código.</h2>
+      <p class="s">O repositório é público e sob licença MIT. Clone, audite, compile ou faça o seu próprio fork.</p>
+    </div>
+    <div class="h-code">
+      <div class="h-term h-x" id="term" aria-label="Exemplo de comandos para clonar o repositório">
+        <div class="bar"><i></i><i></i><i></i><span>~/fluxo</span></div>
+        <pre id="term-out" aria-live="off"></pre>
+      </div>
+      <div class="h-repo h-spot">
+        <header><b>LINCOLN201/Fluxo-Plus</b><span class="live"><i></i>GitHub ao vivo</span></header>
+        <dl>
+          <div><dt>Última versão</dt><dd data-gh-tag>v0.6.14</dd></div>
+          <div><dt>Linguagem</dt><dd id="gh-lang">—</dd></div>
+          <div><dt>Licença</dt><dd>MIT</dd></div>
+          <div><dt>Último push</dt><dd id="gh-push">—</dd></div>
+        </dl>
+        <a class="btn-g" href="https://github.com/LINCOLN201/Fluxo-Plus" target="_blank" rel="noopener">Abrir no GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="h-sec">
   <div class="h-wrap">
     <div class="h-head"><p class="k">Princípios</p><h2>Feito para durar no seu aparelho.</h2></div>
-    <div class="h-pri">
+    <div class="h-pri h-x">
       <div>
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 6a9 9 0 0 1 13 0M3.8 8.6a5.7 5.7 0 0 1 8.4 0M6.2 11.2a2.4 2.4 0 0 1 3.6 0M2 2l12 12"/></svg>
         <h3>Funciona sem internet.</h3>
@@ -120,9 +176,9 @@
 
 <section class="h-sec">
   <div class="h-wrap">
-    <div class="h-nums">
+    <div class="h-nums h-x">
       <div><b>3</b><span>Produtos em desenvolvimento</span></div>
-      <div><b>v0.6.14</b><span>Versão atual do Fluxo+</span></div>
+      <div><b data-gh-tag>v0.6.14</b><span>Versão atual do Fluxo+</span></div>
       <div><b>MIT</b><span>Licença open source</span></div>
       <div><b>0</b><span>Analytics ou rastreadores</span></div>
     </div>
@@ -153,5 +209,51 @@
     <div class="bot"><span>© 2026 Fluxo Ecossistema · Software com propósito, feito no Brasil</span><span class="mono">MIT License · Open Source</span></div>
   </div>
 </footer>
+<script>
+(function () {
+  var reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // cruzes de registro nos cantos
+  document.querySelectorAll('.h-x').forEach(function (el) {
+    ['a', 'b', 'c', 'd'].forEach(function (c) { var i = document.createElement('i'); i.className = 'x ' + c; el.appendChild(i); });
+  });
+  // holofote seguindo o cursor
+  document.addEventListener('pointermove', function (e) {
+    var t = e.target.closest && e.target.closest('.h-spot'); if (!t) return;
+    var r = t.getBoundingClientRect(); t.style.setProperty('--mx', (e.clientX - r.left) + 'px'); t.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  }, { passive: true });
+
+  // dados públicos do repositório (API pública do GitHub, sem chave); se falhar, ficam os valores padrão
+  var tag = 'v0.6.14';
+  function ago(d) { var s = (Date.now() - new Date(d)) / 1000, u = [[86400, 'dia'], [3600, 'h'], [60, 'min']];
+    for (var i = 0; i < u.length; i++) if (s >= u[i][0]) { var n = Math.floor(s / u[i][0]); return 'há ' + n + (u[i][1] === 'dia' ? ' dia' + (n > 1 ? 's' : '') : u[i][1]); } return 'agora'; }
+  fetch('https://api.github.com/repos/LINCOLN201/Fluxo-Plus').then(function (r) { return r.ok ? r.json() : Promise.reject(); }).then(function (j) {
+    if (j.language) document.getElementById('gh-lang').textContent = j.language; document.getElementById('gh-push').textContent = ago(j.pushed_at); }).catch(function () {});
+  fetch('https://api.github.com/repos/LINCOLN201/Fluxo-Plus/releases/latest').then(function (r) { return r.ok ? r.json() : Promise.reject(); }).then(function (j) {
+    if (j.tag_name) { tag = j.tag_name; document.querySelectorAll('[data-gh-tag]').forEach(function (e) { e.textContent = tag; }); } }).catch(function () {});
+
+  // terminal: digita quando aparece na tela
+  var out = document.getElementById('term-out'), term = document.getElementById('term'), rodou = false;
+  function linhas() { return [
+    ['p', '$ ', 'git clone https://github.com/LINCOLN201/Fluxo-Plus.git'],
+    ['o', '', "Cloning into 'Fluxo-Plus'... pronto."],
+    ['p', '$ ', 'head -1 LICENSE'],
+    ['ok', '', 'MIT License'],
+    ['p', '$ ', 'git describe --tags'],
+    ['ok', '', tag] ]; }
+  function esc(t) { return t.replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); }
+  function render(L, upto, chars) {
+    var h = ''; for (var i = 0; i < L.length; i++) { if (i > upto) break; var l = L[i], t = i === upto ? l[2].slice(0, chars) : l[2];
+      h += (l[0] === 'p' ? '<span class="p">' + l[1] + '</span>' : '') + '<span class="' + (l[0] === 'p' ? '' : l[0]) + '">' + esc(t) + '</span>' + (i < upto ? '\n' : ''); }
+    out.innerHTML = h + '<span class="cur"></span>'; }
+  function rodar() { if (rodou) return; rodou = true; var L = linhas();
+    if (reduz) { render(L, L.length - 1, 999); return; }
+    var i = 0, c = 0; (function passo() { var l = L[i], dig = l[0] === 'p';
+      render(L, i, c);
+      if (c < l[2].length) { c += dig ? 1 : 99; setTimeout(passo, dig ? 38 : 0); }
+      else if (i < L.length - 1) { i++; c = 0; setTimeout(passo, dig ? 420 : 220); } })(); }
+  render(linhas(), -1, 0);
+  if ('IntersectionObserver' in window) { new IntersectionObserver(function (e, o) { if (e[0].isIntersecting) { rodar(); o.disconnect(); } }, { threshold: .4 }).observe(term); } else { rodar(); }
+})();
+</script>
 </body>
 </html>
