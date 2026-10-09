@@ -7,7 +7,7 @@
   <meta name="description" content="Aplicativo de finanças pessoais offline-first. Android, Windows e Linux. Seus dados ficam no seu aparelho." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..650&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&display=swap" rel="stylesheet" />
   <style>
     :root {
       --bg:    #050505; --surf:  #0d0d0d; --s2: #111;
@@ -17,7 +17,7 @@
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
-    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    body{font-family:'Geist',system-ui,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
     body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(rgba(168,224,99,.045) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;z-index:-1}
     a{color:inherit;text-decoration:none}
     img{display:block}
@@ -128,20 +128,21 @@
       .price-grid{grid-template-columns:1fr}
     }
   </style>
-<link rel="stylesheet" href="tema.css?v=6" />
+<link rel="stylesheet" href="tema.css?v=8" />
+  <link rel="stylesheet" href="site.css?v=8" />
   <link rel="icon" type="image/png" href="assets/favicon.png" />
 </head>
-<body>
+<body class="pg-prod">
 
 <!-- NAV -->
-<nav>
-  <a href="./index.html" class="nav-logo">
-    <img src="assets/logo-fluxo.png" alt="Fluxo Ecossistema" width="104" height="39" style="height:30px;width:auto;display:block">
-  </a>
-  <div class="nav-links">
-    <a href="./index.html#ecossistema">Produtos</a>
-    <a href="https://github.com/LINCOLN201/Fluxo-Plus" target="_blank" rel="noopener">GitHub</a>
-    <a href="./index.html" class="btn-dl">← Ecossistema</a>
+<nav aria-label="Principal">
+  <a class="logo" href="index.html"><img src="assets/logo-fluxo.png" alt="Fluxo Ecossistema" width="75" height="28"></a>
+  <div class="nav-r">
+    <a class="nav-lk" href="index.html#produtos">Produtos</a>
+    <a class="nav-lk" href="suporte.html">Suporte</a>
+    <a class="nav-lk" href="politicas.html">Políticas</a>
+    <a class="nav-lk" href="https://github.com/LINCOLN201/Fluxo-Plus" target="_blank" rel="noopener">GitHub</a>
+    <a class="nav-dl" href="baixar.html">Baixar</a>
   </div>
 </nav>
 
@@ -160,10 +161,10 @@
     <div>
       <div class="prod-badge">
         <span class="prod-badge-dot"></span>
-        Live · v0.6.14
+        Disponível · <span data-gh-tag>v0.6.16</span>
       </div>
-      <h1 class="hero-h">Finanças pessoais.<br>No seu aparelho.</h1>
-      <p class="hero-sub">Registre despesas, receitas e metas sem depender de servidor. Seus dados ficam no dispositivo — criptografados, acessíveis offline, sempre seus.</p>
+      <h1 class="hero-h">Gestão financeira pessoal, offline.</h1>
+      <p class="hero-sub">Controle receitas, despesas, contas e metas em um banco local. Sem servidor, sem internet obrigatória.</p>
       <div class="hero-btns">
         <a href="https://github.com/LINCOLN201/Fluxo-Plus/releases/latest" target="_blank" rel="noopener" class="btn-p">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -174,7 +175,7 @@
       <div class="hero-meta">
         <span class="hmeta"><b>Grátis</b> no básico</span>
         <span class="hmeta">Premium <b>R$ 9,90/mês</b></span>
-        <span class="hmeta"><b>100%</b> open source</span>
+        <span class="hmeta">Código <b>aberto</b></span>
       </div>
     </div>
     <div class="phone-showcase">
@@ -186,80 +187,80 @@
 </section>
 
 <!-- STATS -->
-<div class="stats-bar">
-  <div class="stat"><div class="stat-n">100%</div><div class="stat-l">Offline-first</div></div>
-  <div class="stat"><div class="stat-n">SQLCipher</div><div class="stat-l">Banco criptografado</div></div>
-  <div class="stat"><div class="stat-n">3</div><div class="stat-l">Plataformas suportadas</div></div>
-  <div class="stat"><div class="stat-n">MIT</div><div class="stat-l">Licença open source</div></div>
+<div class="stats-bar h-x">
+  <div class="stat"><div class="stat-n">Offline</div><div class="stat-l">Funciona sem internet</div></div>
+  <div class="stat"><div class="stat-n">SQLCipher</div><div class="stat-l">Banco criptografado no Android</div></div>
+  <div class="stat"><div class="stat-n">3</div><div class="stat-l">Android, Windows e Linux</div></div>
+  <div class="stat"><div class="stat-n">MIT</div><div class="stat-l">Licença de código aberto</div></div>
 </div>
 
 <!-- FEATURES -->
 <section class="features">
-  <p class="sec-eyebrow">Funcionalidades</p>
-  <h2 class="sec-h">Tudo que você precisa,<br>nada que não precisa.</h2>
-  <div class="feat-grid">
-    <div class="feat">
+  <p class="sec-eyebrow">Fluxo+</p>
+  <h2 class="sec-h">Recursos do Fluxo+</h2>
+  <div class="feat-grid h-x">
+    <div class="feat h-spot">
       <div class="feat-icon">
         <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       </div>
       <div class="feat-h">Banco criptografado</div>
-      <p class="feat-p">SQLCipher protege todos os dados no dispositivo. Sem chave, sem acesso — nem para o sistema operacional.</p>
+      <p class="feat-p">No Android, o banco é cifrado com SQLCipher. Sem a chave, ninguém lê os dados.</p>
     </div>
-    <div class="feat">
+    <div class="feat h-spot">
       <div class="feat-icon">
         <svg viewBox="0 0 24 24"><path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z"/><path d="M8 2v16"/><path d="M16 6v16"/></svg>
       </div>
       <div class="feat-h">Funciona sem internet</div>
-      <p class="feat-p">SQLite local garante que todas as operações funcionem offline. A sincronização com a nuvem é opcional e nunca bloqueia o uso.</p>
+      <p class="feat-p">Tudo usa o banco local e funciona offline. A sincronização é opcional e nunca bloqueia o uso.</p>
     </div>
-    <div class="feat">
+    <div class="feat h-spot">
       <div class="feat-icon">
         <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
       </div>
       <div class="feat-h">Previsão salarial</div>
-      <p class="feat-p">Visualize quanto vai sobrar do salário com base nas despesas lançadas e previstas para o mês.</p>
+      <p class="feat-p">Veja quanto vai sobrar do salário a partir das despesas lançadas e previstas no mês.</p>
     </div>
-    <div class="feat">
+    <div class="feat h-spot">
       <div class="feat-icon">
         <svg viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
       </div>
       <div class="feat-h">Despesas por categoria</div>
-      <p class="feat-p">Gráficos de pizza por categoria, com percentuais e valores absolutos. Categorias customizáveis por cor e ícone.</p>
+      <p class="feat-p">Gráfico por categoria, com percentual e valor. Você escolhe a cor e o ícone de cada categoria.</p>
     </div>
-    <div class="feat">
+    <div class="feat h-spot">
       <div class="feat-icon">
         <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
       </div>
       <div class="feat-h">Assinaturas e streaming</div>
-      <p class="feat-p">Seção dedicada para controlar assinaturas recorrentes com vencimento, valor e status — Netflix, Spotify, e o que mais vier.</p>
+      <p class="feat-p">Controle as assinaturas recorrentes com vencimento, valor e situação de cada uma.</p>
     </div>
-    <div class="feat">
+    <div class="feat h-spot">
       <div class="feat-icon">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
       </div>
       <div class="feat-h">Relatórios mensais</div>
-      <p class="feat-p">Histórico completo com totais de receitas, despesas e saldo. Filtros por período e exportação dos dados.</p>
+      <p class="feat-p">Histórico de receitas, despesas e saldo, com filtro por período.</p>
     </div>
-    <div class="feat">
+    <div class="feat h-spot">
       <div class="feat-icon">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
       </div>
       <div class="feat-h">Central de vencimentos</div>
-      <p class="feat-p">Alertas de contas a vencer com baixa rápida. Nunca mais pague multa por esquecimento.</p>
+      <p class="feat-p">Avisa as contas a vencer e dá baixa em um toque.</p>
     </div>
-    <div class="feat">
+    <div class="feat h-spot">
       <div class="feat-icon">
         <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       </div>
       <div class="feat-h">Múltiplas contas</div>
-      <p class="feat-p">Gerencie conta corrente, poupança, carteira e mais. Saldo consolidado ou por conta.</p>
+      <p class="feat-p">Conta corrente, poupança e carteira, com saldo por conta ou somado.</p>
     </div>
-    <div class="feat">
+    <div class="feat h-spot">
       <div class="feat-icon">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
       </div>
       <div class="feat-h">Metas financeiras</div>
-      <p class="feat-p">Defina metas de economia com prazo e acompanhe o progresso mês a mês com barra visual de evolução.</p>
+      <p class="feat-p">Defina metas com prazo e acompanhe o progresso mês a mês.</p>
     </div>
   </div>
 </section>
@@ -267,21 +268,21 @@
 <!-- PLATFORMS -->
 <section class="platforms">
   <p class="sec-eyebrow">Plataformas</p>
-  <h2 class="sec-h" style="margin-bottom:1.5rem">Onde você precisar.</h2>
+  <h2 class="sec-h" style="margin-bottom:1.5rem">Android, Windows e Linux.</h2>
   <div class="plat-grid">
-    <div class="plat">
+    <div class="plat h-spot">
       <div class="plat-name">Android</div>
-      <div class="plat-dl">APK direto ou Play Store (em breve)</div>
+      <div class="plat-dl">APK direto. Play Store em breve.</div>
       <span class="plat-status s-live">● Live</span>
     </div>
-    <div class="plat">
+    <div class="plat h-spot">
       <div class="plat-name">Windows</div>
-      <div class="plat-dl">ZIP sem instalador — descompacta e roda</div>
+      <div class="plat-dl">Arquivo ZIP, sem instalador.</div>
       <span class="plat-status s-live">● Live</span>
     </div>
-    <div class="plat">
+    <div class="plat h-spot">
       <div class="plat-name">Linux</div>
-      <div class="plat-dl">tar.gz para x64 — Ubuntu, Fedora, Arch e derivados</div>
+      <div class="plat-dl">Pacote tar.gz para x64.</div>
       <span class="plat-status s-live">● Live</span>
     </div>
   </div>
@@ -289,13 +290,13 @@
 
 <!-- PRICING -->
 <section class="pricing">
-  <p class="sec-eyebrow">Planos</p>
-  <h2 class="sec-h" style="margin-bottom:1.5rem">Grátis de verdade.</h2>
+  <p class="sec-eyebrow">Preço</p>
+  <h2 class="sec-h" style="margin-bottom:1.5rem">Planos.</h2>
   <div class="price-grid">
-    <div class="price-card">
+    <div class="price-card h-spot">
       <div class="price-name">Básico</div>
       <div class="price-val">Grátis</div>
-      <div class="price-period">Para sempre</div>
+      <div class="price-period">Sem prazo de validade</div>
       <ul class="price-items">
         <li>Despesas e receitas ilimitadas</li>
         <li>Múltiplas contas</li>
@@ -303,13 +304,13 @@
         <li>Relatórios mensais</li>
         <li>Central de vencimentos</li>
         <li>Funciona offline</li>
-        <li>Open source</li>
+        <li>Código aberto</li>
       </ul>
     </div>
-    <div class="price-card featured">
+    <div class="price-card featured h-spot">
       <div class="price-name">Premium</div>
       <div class="price-val">R$ 9,90</div>
-      <div class="price-period">por mês · ou R$ 118,80/ano</div>
+      <div class="price-period">por mês, ou R$ 118,80 por ano</div>
       <ul class="price-items">
         <li>Tudo do básico</li>
         <li>Backup criptografado na nuvem</li>
@@ -321,14 +322,19 @@
   </div>
 </section>
 
-<footer>
-  <span class="ft-left">© 2026 · Fluxo Ecossistema · Software com propósito, feito no Brasil.</span>
-  <div class="ft-right">
-    <a href="https://github.com/LINCOLN201/Fluxo-Plus" target="_blank" rel="noopener">GitHub</a>
-    <a href="./index.html">Ecossistema</a>
-    <a href="https://github.com/LINCOLN201/Fluxo-Plus/releases/latest" target="_blank" rel="noopener">Baixar</a>
+<footer class="h-foot">
+  <div class="h-wrap">
+    <div class="fgrid">
+      <div class="brand"><img src="assets/logo-fluxo.png" alt="Fluxo Ecossistema" width="75" height="28"><p>Estúdio de software brasileiro. Ferramentas abertas, offline-first e respeitosas. Atendimento somente por e-mail.</p></div>
+      <div><h4>Produtos</h4><ul><li><a href="fluxo-mais.html">Fluxo+</a></li><li><a href="escalas.html">Escalas</a></li><li><a href="fluxocheck.html">FluxoCheck</a></li><li><a href="baixar.html">Baixar</a></li><li><a href="https://github.com/LINCOLN201/Fluxo-Plus" target="_blank" rel="noopener">GitHub</a></li></ul></div>
+      <div><h4>Suporte</h4><ul><li><a href="suporte.html">Central de ajuda</a></li><li><a href="contato.html">Fale conosco</a></li><li><a href="status.html">Status dos sistemas</a></li><li><a href="seguranca.html">Segurança</a></li></ul></div>
+      <div><h4>Políticas</h4><ul><li><a href="termos.html">Termos de uso</a></li><li><a href="privacidade.html">Privacidade</a></li><li><a href="cookies.html">Cookies</a></li><li><a href="uso-aceitavel.html">Uso aceitável</a></li><li><a href="reembolso.html">Reembolso</a></li></ul></div>
+      <div><h4>Empresa</h4><ul><li><a href="sobre.html">Sobre</a></li><li><a href="marca.html">Marca e direitos</a></li><li><a href="imprensa.html">Imprensa</a></li><li><a href="mapa-do-site.html">Mapa do site</a></li></ul></div>
+    </div>
+    <div class="bot"><span>© 2026 Fluxo Ecossistema™ · Feito no Brasil</span><span>Contato: <a href="mailto:fluxoecossistema@gmail.com">fluxoecossistema@gmail.com</a></span></div>
   </div>
 </footer>
 
+<script src="site.js?v=2" defer></script>
 </body>
 </html>

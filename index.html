@@ -7,825 +7,245 @@
   <meta name="description" content="Estúdio de software brasileiro criando ferramentas abertas, offline-first e respeitosas. Fluxo+, FluxoCheck, Escalas e mais." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..650&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --bg:    #050505;
-      --surf:  #0d0d0d;
-      --s2:    #111;
-      --brd:   #1a1a1a;
-      --brd2:  #252525;
-      --muted: #787878;
-      --dim:   #999;
-      --text:  #bbb;
-      --white: #efefef;
-      --lime:  #a8e063;
-      --limeb: rgba(168,224,99,.1);
-      --gn:    #16a34a;
-    }
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
-    body{
-      font-family:'Inter',system-ui,sans-serif;
-      background:var(--bg);color:var(--text);
-      -webkit-font-smoothing:antialiased;overflow-x:hidden;
-    }
-    body::before{
-      content:'';position:fixed;inset:0;
-      background-image:radial-gradient(rgba(168,224,99,.045) 1px,transparent 1px);
-      background-size:28px 28px;
-      pointer-events:none;z-index:-1;
-    }
-    a{color:inherit;text-decoration:none}
-    a:focus-visible{outline:2px solid var(--lime);outline-offset:3px;border-radius:4px}
-    img{display:block}
-
-    /* ═══════════════ TICKER ═══════════════ */
-    .ticker-bar{
-      position:fixed;top:0;left:0;right:0;z-index:300;
-      height:26px;
-      background:rgba(10,10,10,.95);
-      border-bottom:1px solid rgba(168,224,99,.15);
-      overflow:hidden;display:flex;align-items:center;
-    }
-    .ticker-track{
-      display:inline-flex;align-items:center;
-      animation:ticker 60s linear infinite;
-      white-space:nowrap;
-    }
-    .ticker-track:hover{animation-play-state:paused}
-    .ticker-text{
-      font-size:.62rem;font-weight:500;letter-spacing:.06em;
-      color:var(--lime);padding-right:4rem;
-    }
-    @keyframes ticker{
-      from{transform:translateX(0)}
-      to{transform:translateX(-50%)}
-    }
-
-    /* ═══════════════ NAV ═══════════════ */
-    nav{
-      position:fixed;top:26px;left:0;right:0;z-index:200;
-      display:flex;align-items:center;justify-content:space-between;
-      padding:0 clamp(1.25rem,5vw,3.5rem);height:56px;
-      background:rgba(5,5,5,.85);backdrop-filter:blur(28px);
-      border-bottom:1px solid rgba(255,255,255,.05);
-    }
-    .logo{display:flex;align-items:center;gap:.55rem}
-    .logo img{width:26px;height:26px;border-radius:7px}
-    .logo-t{
-      font-family:'Inter',system-ui,sans-serif;
-      font-size:.86rem;font-weight:700;letter-spacing:-.015em;color:var(--white);
-    }
-    .nav-r{display:flex;align-items:center;gap:1.5rem}
-    .nav-lk{
-      font-size:.75rem;font-weight:400;color:var(--muted);
-      transition:color .15s;letter-spacing:.01em;
-    }
-    .nav-lk:hover{color:var(--white)}
-    .nav-dl{
-      font-size:.75rem;font-weight:700;
-      background:var(--white);color:#060606;
-      padding:.38rem 1.1rem;border-radius:8px;
-      transition:transform .15s,box-shadow .15s,opacity .15s;
-    }
-    .nav-dl:hover{
-      transform:translateY(-1px);
-      box-shadow:0 6px 20px rgba(255,255,255,.15);
-      opacity:.92;
-    }
-    .nav-dl:active{transform:translateY(0);box-shadow:none}
-
-    /* ═══════════════ HERO ═══════════════ */
-    .hero{
-      min-height:100svh;padding-top:calc(26px + 56px);
-      display:grid;grid-template-columns:1fr 1fr;
-      gap:2rem;align-items:center;
-      padding-inline:clamp(1.25rem,5vw,3.5rem);
-      max-width:1180px;margin-inline:auto;
-    }
-    .hero-txt{padding-block:2.5rem}
-    .hero-kicker{
-      display:inline-flex;align-items:center;gap:.4rem;
-      font-size:.65rem;font-weight:600;letter-spacing:.07em;
-      color:var(--lime);border:1px solid rgba(168,224,99,.22);
-      padding:.28em .85em;border-radius:100px;margin-bottom:2rem;
-      text-transform:uppercase;
-    }
-    .kicker-dot{
-      width:5px;height:5px;border-radius:50%;background:var(--lime);
-      animation:pulse 2.5s ease-in-out infinite;
-    }
-    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
-    h1{
-      font-family:'Inter',system-ui,sans-serif;
-      font-size:clamp(2.6rem,5vw,4.4rem);
-      font-weight:800;line-height:.91;letter-spacing:-.06em;
-      color:var(--white);margin-bottom:1.5rem;
-    }
-    .hero-sub{
-      font-size:clamp(.88rem,1.3vw,1rem);
-      font-weight:400;color:var(--dim);
-      max-width:40ch;line-height:1.75;margin-bottom:2.25rem;
-    }
-    .hero-btns{display:flex;flex-wrap:wrap;gap:.65rem;align-items:center}
-    .btn-p{
-      display:inline-flex;align-items:center;gap:.45rem;
-      background:var(--white);color:#060606;
-      padding:.7rem 1.55rem;border-radius:9px;
-      font-size:.82rem;font-weight:700;
-      transition:transform .15s cubic-bezier(.34,1.56,.64,1),box-shadow .15s,opacity .15s;
-      position:relative;overflow:hidden;
-    }
-    .btn-p::after{
-      content:'';position:absolute;inset:0;
-      background:linear-gradient(135deg,rgba(255,255,255,.2),transparent);
-      opacity:0;transition:opacity .15s;
-    }
-    .btn-p:hover{
-      transform:translateY(-2px);
-      box-shadow:0 10px 30px rgba(255,255,255,.18);
-    }
-    .btn-p:hover::after{opacity:1}
-    .btn-p:active{transform:translateY(0);box-shadow:0 4px 12px rgba(255,255,255,.1)}
-    .btn-g{
-      display:inline-flex;align-items:center;gap:.4rem;
-      background:transparent;border:1px solid var(--brd2);
-      color:var(--muted);padding:.68rem 1.3rem;border-radius:9px;
-      font-size:.82rem;font-weight:400;
-      transition:border-color .15s,color .15s,transform .15s;
-    }
-    .btn-g:hover{border-color:var(--muted);color:var(--white);transform:translateY(-1px)}
-    .btn-g:active{transform:translateY(0)}
-    .hero-stats{
-      display:flex;gap:2rem;margin-top:2.5rem;
-      padding-top:1.75rem;border-top:1px solid var(--brd);
-    }
-    .stat{}
-    .stat-n{
-      font-family:'Inter',system-ui,sans-serif;
-      font-size:1.4rem;font-weight:800;letter-spacing:-.04em;
-      font-variant-numeric:tabular-nums;
-      color:var(--white);line-height:1;
-    }
-    .stat-l{font-size:.65rem;color:var(--muted);margin-top:.2rem}
-
-    /* ─── Phone mockup ─── */
-    .hero-vis{
-      display:flex;justify-content:center;align-items:center;
-      position:relative;padding-block:3rem;
-    }
-    .phone-wrap{
-      position:relative;width:255px;height:516px;flex-shrink:0;
-      z-index:2;
-    }
-    .phone-body{
-      position:absolute;inset:0;
-      background:linear-gradient(155deg,#222 0%,#141414 60%,#0e0e0e 100%);
-      border-radius:40px;
-      border:1px solid rgba(255,255,255,.08);
-      box-shadow:
-        0 0 0 1px rgba(0,0,0,.95),
-        0 36px 90px rgba(0,0,0,.8),
-        0 0 70px rgba(168,224,99,.05),
-        inset 0 1px 0 rgba(255,255,255,.07),
-        inset 0 -1px 0 rgba(255,255,255,.02);
-      overflow:hidden;padding:13px 11px 11px;
-      display:flex;flex-direction:column;
-    }
-    .phone-island{
-      width:82px;height:26px;
-      background:#000;border-radius:13px;
-      margin:0 auto 5px;flex-shrink:0;
-      display:flex;align-items:center;justify-content:center;gap:6px;
-    }
-    .phone-cam{width:8px;height:8px;border-radius:50%;background:#1c1c1c;border:1.5px solid #2a2a2a}
-    .phone-cam.dot{width:4px;height:4px;background:#1f1f1f}
-    .phone-screen{
-      flex:1;border-radius:28px;overflow:hidden;background:#0d1117;
-    }
-    .phone-screen img{
-      width:100%;height:100%;
-      object-fit:cover;object-position:top;
-    }
-    .phone-home{
-      width:88px;height:4px;
-      background:rgba(255,255,255,.18);border-radius:2px;
-      margin:8px auto 0;flex-shrink:0;
-    }
-    /* side buttons */
-    .phone-btn-r,.phone-btn-l{
-      position:absolute;width:3px;border-radius:2px 0 0 2px;
-      background:rgba(255,255,255,.1);
-    }
-    .phone-btn-r{right:-3px;top:90px;height:40px;border-radius:0 2px 2px 0}
-    .phone-btn-l{left:-3px;top:80px;height:28px}
-    .phone-btn-l2{
-      position:absolute;left:-3px;top:118px;height:40px;width:3px;
-      border-radius:2px 0 0 2px;background:rgba(255,255,255,.1);
-    }
-    .phone-btn-l3{
-      position:absolute;left:-3px;top:168px;height:40px;width:3px;
-      border-radius:2px 0 0 2px;background:rgba(255,255,255,.1);
-    }
-    /* phone glow */
-    .phone-glow{
-      position:absolute;width:350px;height:350px;
-      background:radial-gradient(ellipse,rgba(168,224,99,.12) 0%,transparent 68%);
-      border-radius:50%;top:50%;left:50%;
-      transform:translate(-50%,-50%);pointer-events:none;z-index:0;
-    }
-    /* ─── 3-phone hero gallery ─── */
-    .phones-row{
-      display:flex;align-items:flex-end;gap:12px;
-      position:relative;z-index:2;
-    }
-    .phone-sm{
-      position:relative;flex-shrink:0;
-    }
-    .phone-sm .phone-body{
-      position:relative;
-      background:linear-gradient(155deg,#222 0%,#141414 60%,#0e0e0e 100%);
-      border-radius:34px;
-      border:1px solid rgba(255,255,255,.08);
-      box-shadow:
-        0 0 0 1px rgba(0,0,0,.95),
-        0 28px 64px rgba(0,0,0,.75),
-        inset 0 1px 0 rgba(255,255,255,.07);
-      overflow:hidden;
-      padding:10px 9px 9px;
-      display:flex;flex-direction:column;
-      width:178px;height:360px;
-    }
-    .phone-main .phone-body{
-      width:210px;height:430px;
-      border-radius:40px;
-      box-shadow:
-        0 0 0 1px rgba(0,0,0,.95),
-        0 36px 90px rgba(0,0,0,.85),
-        0 0 60px rgba(168,224,99,.07),
-        inset 0 1px 0 rgba(255,255,255,.08);
-      transform:translateY(-20px);
-    }
-    .phone-sm .phone-island{
-      width:64px;height:20px;
-      background:#000;border-radius:10px;
-      margin:0 auto 4px;flex-shrink:0;
-      display:flex;align-items:center;justify-content:center;gap:5px;
-    }
-    .phone-main .phone-island{
-      width:76px;height:24px;border-radius:12px;margin-bottom:5px;
-    }
-    .phone-sm .phone-screen{
-      flex:1;border-radius:22px;overflow:hidden;background:#0d1117;
-    }
-    .phone-main .phone-screen{border-radius:28px}
-    .phone-sm .phone-screen img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
-    .phone-sm .phone-home{
-      width:70px;height:3px;
-      background:rgba(255,255,255,.15);border-radius:2px;
-      margin:6px auto 0;flex-shrink:0;
-    }
-    .phone-sm .phone-btn-r,.phone-sm .phone-btn-l{
-      position:absolute;width:3px;border-radius:2px 0 0 2px;
-      background:rgba(255,255,255,.1);
-    }
-    .phone-sm .phone-btn-r{right:-3px;top:70px;height:32px;border-radius:0 2px 2px 0}
-    .phone-sm .phone-btn-l{left:-3px;top:60px;height:22px}
-    .phone-sm .phone-btn-l2{position:absolute;left:-3px;top:90px;height:32px;width:3px;border-radius:2px 0 0 2px;background:rgba(255,255,255,.1)}
-    .phone-sm .phone-btn-l3{position:absolute;left:-3px;top:130px;height:32px;width:3px;border-radius:2px 0 0 2px;background:rgba(255,255,255,.1)}
-    /* hero specs strip */
-    .hero-specs{
-      display:flex;flex-wrap:wrap;gap:.3rem .5rem;
-      margin-top:1.6rem;
-    }
-    .spec-tag{
-      font-size:.63rem;font-weight:500;color:var(--dim);
-      background:var(--surf);border:1px solid var(--brd2);
-      padding:.22em .6em;border-radius:4px;
-      letter-spacing:.01em;
-    }
-
-    /* ═══════════════ SHOWCASE ═══════════════ */
-    .showcase{
-      padding:0 0 5rem;
-      max-width:1100px;margin-inline:auto;
-      padding-inline:clamp(1.25rem,4vw,3rem);
-    }
-    .showcase-hdr{text-align:center;margin-bottom:2.5rem}
-    .sec-tag{
-      display:inline-block;
-      font-size:.63rem;font-weight:600;letter-spacing:.07em;
-      color:var(--muted);text-transform:uppercase;
-      border:1px solid var(--brd2);padding:.25em .75em;border-radius:4px;
-      margin-bottom:.85rem;
-    }
-    .sec-title{
-      font-family:'Inter',system-ui,sans-serif;
-      font-size:clamp(1.5rem,2.8vw,2.2rem);
-      font-weight:800;letter-spacing:-.05em;
-      color:var(--white);line-height:1.0;
-    }
-    .panels{
-      display:grid;grid-template-columns:1.45fr 1fr;
-      gap:1px;background:var(--brd);
-      border:1px solid var(--brd);border-radius:18px;overflow:hidden;
-    }
-    .panel{background:rgba(13,13,13,.7);backdrop-filter:blur(16px)}
-    .panel-sm{display:flex;flex-direction:column}
-    /* Desktop window */
-    .desk-win{width:100%;height:100%;display:flex;flex-direction:column}
-    .win-img{flex:1;overflow:hidden;position:relative}
-    .win-img::before{
-      content:'';position:absolute;top:0;left:0;right:0;height:38px;
-      background:var(--surf);z-index:2;
-    }
-    .win-img img{width:100%;object-fit:cover;object-position:top;display:block;max-height:424px}
-    /* Data panels */
-    .ui-panel{
-      padding:1.1rem;
-      border-bottom:1px solid var(--brd);
-      flex:1;display:flex;flex-direction:column;gap:.6rem;
-    }
-    .ui-panel:last-child{border-bottom:none}
-    .ui-pt{font-size:.6rem;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.2rem}
-    /* Balance */
-    .bal-n{
-      font-family:'Inter',system-ui,sans-serif;
-      font-size:1.45rem;font-weight:800;letter-spacing:-.05em;
-      font-variant-numeric:tabular-nums;
-      color:var(--white);line-height:1;
-    }
-    .bal-n .cents{font-size:.85rem;opacity:.65}
-    .bal-sub{font-size:.63rem;color:var(--lime);display:flex;align-items:center;gap:.3rem;margin-top:.2rem}
-    .bal-accounts{margin-top:.5rem;display:flex;flex-direction:column;gap:.3rem}
-    .bacc{display:flex;justify-content:space-between;align-items:center}
-    .bacc-nm{font-size:.68rem;color:var(--muted)}
-    .bacc-v{font-size:.7rem;font-weight:600;color:var(--white)}
-    /* Transactions */
-    .tx{
-      display:flex;align-items:center;gap:.65rem;
-      padding:.42rem 0;border-bottom:1px solid rgba(255,255,255,.04);
-    }
-    .tx:last-child{border-bottom:none}
-    .tx-ico{
-      width:27px;height:27px;border-radius:7px;
-      display:grid;place-items:center;
-      font-size:.68rem;flex-shrink:0;
-    }
-    .tx-info{flex:1;min-width:0}
-    .tx-nm{font-size:.7rem;font-weight:500;color:var(--white);
-      white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .tx-dt{font-size:.59rem;color:var(--muted)}
-    .tx-val{font-size:.73rem;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
-    .neg{color:#f87171}.pos{color:var(--lime)}
-    /* Categories */
-    .cat{display:flex;align-items:center;gap:.6rem;margin-bottom:.55rem}
-    .cat:last-child{margin-bottom:0}
-    .cat-l{font-size:.65rem;color:var(--dim);width:78px;flex-shrink:0;
-      white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .cat-bw{flex:1;height:3px;background:var(--brd2);border-radius:2px}
-    .cat-b{height:100%;border-radius:2px;transition:width .3s ease}
-    .cat-v{font-size:.62rem;color:var(--muted);width:42px;text-align:right;flex-shrink:0}
-
-    /* ═══════════════ STATEMENTS ═══════════════ */
-    .stmts{border-top:1px solid var(--brd);padding:5rem 0}
-    .stmts-in{max-width:940px;margin-inline:auto;padding-inline:clamp(1.25rem,5vw,3rem)}
-    .stmt{
-      display:grid;grid-template-columns:1fr 1fr;
-      gap:3rem;padding:3.5rem 0;
-      border-top:1px solid var(--brd);
-      align-items:start;
-    }
-    .stmt:first-child{border-top:none;padding-top:0}
-    .stmt-h{
-      font-family:'Inter',system-ui,sans-serif;
-      font-size:clamp(1.6rem,2.8vw,2.2rem);
-      font-weight:800;letter-spacing:-.05em;
-      line-height:.96;color:var(--white);
-    }
-    .stmt-p{
-      font-size:.88rem;color:var(--muted);
-      line-height:1.8;max-width:38ch;padding-top:.25rem;
-    }
-    .stmt.flip{direction:rtl}
-    .stmt.flip>*{direction:ltr}
-
-    /* ═══════════════ PRODUCTS ═══════════════ */
-    /* ═══════ ECOSSISTEMA LIST ═══════ */
-    .prods-sec{border-top:1px solid var(--brd);padding:4rem 0 5rem}
-    .prods-in{max-width:940px;margin-inline:auto;padding-inline:clamp(1.25rem,5vw,3rem)}
-    .prods-hd{margin-bottom:2.5rem}
-    .prods-ht{font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-    .prods-hs{font-family:'Inter',system-ui,sans-serif;font-size:clamp(1.4rem,2.5vw,1.9rem);font-weight:800;
-      letter-spacing:-.05em;color:var(--white);margin-top:.4rem;line-height:1.05}
-    .prods-list{border-top:1px solid var(--brd)}
-    .prow{
-      display:grid;grid-template-columns:1fr auto auto;
-      gap:1.5rem;padding:1.25rem 0 1.25rem 0;
-      border-bottom:1px solid var(--brd);
-      align-items:center;text-decoration:none;
-      position:relative;
-      transition:padding-left .22s cubic-bezier(.34,1.56,.64,1),background .18s;
-    }
-    .prow::before{
-      content:'';position:absolute;left:0;top:0;bottom:0;
-      width:2px;background:var(--lime);
-      transform:scaleY(0);
-      transition:transform .22s cubic-bezier(.34,1.56,.64,1);
-    }
-    .prow:hover{padding-left:1.1rem}
-    .prow:hover::before{transform:scaleY(1)}
-    .prow:hover .prow-nm{color:var(--lime)}
-    .prow-body{display:flex;flex-direction:column;gap:.18rem}
-    .prow-nm{font-size:.92rem;font-weight:700;color:var(--white);letter-spacing:-.025em;transition:color .18s}
-    .prow-ds{font-size:.76rem;color:var(--dim);line-height:1.55}
-    .prod-tg{
-      font-size:.59rem;font-weight:700;letter-spacing:.04em;
-      padding:.22em .65em;border-radius:4px;border:1px solid;
-      white-space:nowrap;
-    }
-    .prow-act{font-size:.72rem;font-weight:600;color:var(--lime);display:inline-flex;align-items:center;gap:.28rem}
-    .prow-act svg{transition:transform .15s}
-    .prow:hover .prow-act svg{transform:translateX(2px)}
-    .prow-dead{font-size:.72rem;color:var(--muted)}
-    .bt{color:#38bdf8;border-color:rgba(56,189,248,.22)}
-    .live{color:var(--lime);border-color:rgba(168,224,99,.25)}
-    .wip{color:var(--muted);border-color:rgba(255,255,255,.08)}
-
-    /* ═══════════════ CTA ═══════════════ */
-    .cta-sec{
-      border-top:1px solid var(--brd);
-      padding:5rem clamp(1.25rem,5vw,3.5rem) 4.5rem;
-      text-align:center;
-      background:radial-gradient(ellipse at 50% 0%,rgba(168,224,99,.04),transparent 60%);
-    }
-    .cta-h{
-      font-family:'Inter',system-ui,sans-serif;
-      font-size:clamp(1.9rem,4vw,3.2rem);
-      font-weight:800;letter-spacing:-.06em;
-      color:var(--white);line-height:.93;margin-bottom:.9rem;
-    }
-    .cta-s{font-size:.88rem;color:var(--muted);margin-bottom:2rem;max-width:46ch;margin-inline:auto}
-    .cta-btns{display:flex;gap:.65rem;justify-content:center;flex-wrap:wrap}
-    .cta-note{font-size:.7rem;color:var(--dim);margin-top:1rem}
-    .cta-note b{color:var(--text)}
-
-    /* ═══════════════ FOOTER ═══════════════ */
-    footer{
-      border-top:1px solid var(--brd);
-      padding:3rem clamp(1.25rem,5vw,3.5rem) 2rem;
-      background:var(--bg);
-    }
-    .ft-grid{
-      display:grid;grid-template-columns:1.6fr 1fr 1fr;
-      gap:2.5rem;max-width:940px;margin-inline:auto;
-      padding-bottom:2.5rem;border-bottom:1px solid var(--brd);
-    }
-    .ft-brand{display:flex;align-items:center;gap:.5rem;margin-bottom:.6rem}
-    .ft-brand img{width:18px;height:18px;border-radius:4px;opacity:.6}
-    .ft-nm{font-size:.78rem;color:var(--white);font-weight:700;letter-spacing:-.02em}
-    .ft-desc{font-size:.72rem;color:var(--dim);line-height:1.65;max-width:28ch;margin-top:.3rem}
-    .ft-col-h{font-size:.62rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:.9rem}
-    .ft-col-lks{display:flex;flex-direction:column;gap:.5rem}
-    .ft-col-lks a{font-size:.74rem;color:var(--dim);transition:color .14s;display:inline-flex;align-items:center;gap:.3rem}
-    .ft-col-lks a:hover{color:var(--white)}
-    .ft-bottom{
-      display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
-      max-width:940px;margin-inline:auto;padding-top:1.5rem;
-    }
-    .ft-copy{font-size:.65rem;color:var(--dim)}
-    .ft-made{font-size:.65rem;color:var(--dim);opacity:.6}
-
-    /* ═══════════════ SCROLL REVEAL ═══════════════ */
-    .reveal{
-      opacity:0;transform:translateY(24px);
-      transition:opacity .55s ease,transform .55s ease;
-    }
-    .reveal.visible{opacity:1;transform:translateY(0)}
-
-    /* ═══════════════ RESPONSIVE ═══════════════ */
-    @media(max-width:920px){
-      .hero{grid-template-columns:1fr;padding-top:calc(26px + 56px + 2rem)}
-      .hero-vis{order:-1;padding-block:2rem}
-      .phones-row{gap:8px}
-      .phone-sm .phone-body{width:148px;height:300px}
-      .phone-main .phone-body{width:175px;height:358px}
-      h1{font-size:clamp(2.3rem,7.5vw,3.8rem)}
-      .panels{grid-template-columns:1fr}
-      .panel-sm{display:grid;grid-template-columns:1fr 1fr}
-      .ui-panel{border-bottom:none;border-right:1px solid var(--brd)}
-      .ui-panel:last-child{border-right:none}
-      .stmt,.stmt.flip{grid-template-columns:1fr;gap:.75rem;direction:ltr}
-      .stmt.flip>*{direction:ltr}
-      .ft-grid{grid-template-columns:1fr 1fr}
-    }
-    @media(max-width:620px){
-      nav .nav-lk:not(:last-child){display:none}
-      .panel-sm{grid-template-columns:1fr}
-      .ui-panel{border-right:none;border-bottom:1px solid var(--brd)}
-      .hero-stats{gap:1.5rem}
-      .phones-row .phone-sm:first-child,.phones-row .phone-sm:last-child{display:none}
-      .phone-main .phone-body{width:200px;height:406px;transform:none}
-      .ft-grid{grid-template-columns:1fr}
-    }
-    @media(prefers-reduced-motion:reduce){
-      *{transition-duration:0ms!important;animation:none!important}
-    }
-  </style>
-<link rel="stylesheet" href="tema.css?v=6" />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="tema.css?v=8" />
+  <link rel="stylesheet" href="site.css?v=8" />
+  <link rel="stylesheet" href="home.css?v=4" />
   <link rel="icon" type="image/png" href="assets/favicon.png" />
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <a class="logo" href="./">
-    <img src="assets/logo-fluxo.png" alt="Fluxo Ecossistema" width="104" height="39" style="border-radius:0;height:30px;width:auto;display:block">
-  </a>
+<nav aria-label="Principal">
+  <a class="logo" href="index.html"><img src="assets/logo-fluxo.png" alt="Fluxo Ecossistema" width="75" height="28"></a>
   <div class="nav-r">
+    <a class="nav-lk" href="index.html#produtos">Produtos</a>
+    <a class="nav-lk" href="suporte.html">Suporte</a>
+    <a class="nav-lk" href="politicas.html">Políticas</a>
     <a class="nav-lk" href="https://github.com/LINCOLN201/Fluxo-Plus" target="_blank" rel="noopener">GitHub</a>
-    <a class="nav-lk" href="#produtos">Produtos</a>
-    <a class="nav-dl" href="./baixar.html">Baixar</a>
+    <a class="nav-dl" href="baixar.html">Baixar</a>
   </div>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-txt">
-    <div class="hero-kicker"><span class="kicker-dot"></span>Estúdio de software · Brasil</div>
-    <h1>Software que<br>respeita quem usa.</h1>
-    <p class="hero-sub">
-      Construímos ferramentas práticas, abertas e que funcionam sem depender
-      de servidores terceiros. Seus dados ficam com você.
-    </p>
-    <div class="hero-btns">
-      <a class="btn-p" href="https://github.com/LINCOLN201/Fluxo-Plus/releases/latest/download/fluxo-plus-android.apk" target="_blank" rel="noopener">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M5 9h6v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V9z" stroke="currentColor" stroke-width="1.5"/><path d="M5 9A3 3 0 0 1 8 6a3 3 0 0 1 3 3" stroke="currentColor" stroke-width="1.5"/><path d="M3.5 10.5H2.5M13.5 10.5H12.5M6 5.5 5 4M10 5.5l1-1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="6.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="9.5" cy="7.5" r=".5" fill="currentColor"/></svg>
-        Android APK
-      </a>
-      <a class="btn-g" href="https://github.com/LINCOLN201/Fluxo-Plus/releases/latest/download/fluxo-plus-windows.zip" target="_blank" rel="noopener">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="2" y="2" width="5.5" height="5.5" rx=".5" fill="currentColor"/><rect x="8.5" y="2" width="5.5" height="5.5" rx=".5" fill="currentColor"/><rect x="2" y="8.5" width="5.5" height="5.5" rx=".5" fill="currentColor"/><rect x="8.5" y="8.5" width="5.5" height="5.5" rx=".5" fill="currentColor"/></svg>
-        Windows
-      </a>
-      <a class="btn-g" href="https://github.com/LINCOLN201/Fluxo-Plus/releases/latest/download/fluxo-plus-linux.tar.gz" target="_blank" rel="noopener">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="2" y="2" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M4 7l2 2-2 2M8 11h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Linux
-      </a>
-      <a class="btn-g" href="https://github.com/LINCOLN201/Fluxo-Plus" target="_blank" rel="noopener">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M8 1a7 7 0 0 0-2.21 13.64c.35.07.48-.15.48-.34v-1.32c-1.94.42-2.35-.94-2.35-.94-.32-.81-.78-1.03-.78-1.03-.64-.43.05-.42.05-.42.7.05 1.07.72 1.07.72.62 1.07 1.64.76 2.04.58.06-.45.24-.76.44-.93-1.55-.18-3.18-.78-3.18-3.46 0-.76.27-1.39.72-1.88-.07-.17-.31-.89.07-1.85 0 0 .59-.19 1.93.72a6.7 6.7 0 0 1 1.76-.24c.6 0 1.2.08 1.76.24 1.34-.91 1.93-.72 1.93-.72.38.96.14 1.68.07 1.85.45.49.72 1.12.72 1.88 0 2.69-1.64 3.28-3.2 3.45.25.22.47.65.47 1.31v1.95c0 .19.13.41.48.34A7 7 0 0 0 8 1Z" fill="currentColor"/></svg>
-        Ver código
-      </a>
+<header class="h-hero">
+  <div class="h-wrap">
+    <a class="h-pill" href="./fluxo-mais.html"><i></i>Fluxo+ <code data-gh-tag>v0.6.16</code> disponível <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <h1>Sistemas de gestão que funcionam offline.</h1>
+    <p class="h-sub">Finanças pessoais, escalas de equipe e conformidade operacional. Dados no dispositivo, nuvem opcional e código aberto.</p>
+    <div class="h-cta">
+      <a class="btn-p" href="https://github.com/LINCOLN201/Fluxo-Plus/releases/latest/download/fluxo-plus-android.apk" target="_blank" rel="noopener">Baixar Fluxo+</a>
+      <a class="btn-g" href="https://github.com/LINCOLN201/Fluxo-Plus" target="_blank" rel="noopener">Ver código</a>
     </div>
-    <div class="hero-stats">
-      <div class="stat"><div class="stat-n">5</div><div class="stat-l">Produtos em<br>desenvolvimento</div></div>
-      <div class="stat"><div class="stat-n">v0.6</div><div class="stat-l">Versão atual<br>Fluxo+</div></div>
-      <div class="stat"><div class="stat-n">100%</div><div class="stat-l">Open source<br>no GitHub</div></div>
-    </div>
-    <div class="hero-specs">
-      <span class="spec-tag">v0.6.14</span>
-      <span class="spec-tag">MIT License</span>
-      <span class="spec-tag">SQLCipher</span>
-      <span class="spec-tag">Offline-first</span>
-      <span class="spec-tag">Android · Windows · Linux</span>
-    </div>
-  </div>
+    <p class="h-os">Android · Windows · Linux</p>
 
-  <!-- Phone -->
-   <div class="hero-vis">
-    <div class="phone-glow"></div>
-    <div class="baloes" aria-hidden="true">
-      <div class="balao b1"><span class="balao-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 6a9 9 0 0 1 13 0M3.8 8.6a5.7 5.7 0 0 1 8.4 0M6.2 11.2a2.4 2.4 0 0 1 3.6 0M2 2l12 12"/></svg></span><span><b>Funciona offline</b><small>Sem internet, sem espera</small></span></div>
-      <div class="balao b2"><span class="balao-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="2"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg></span><span><b>Dados criptografados</b><small>SQLCipher no aparelho</small></span></div>
-      <div class="balao b3"><span class="balao-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5.5 4.5-3 3.5 3 3.5M10.5 4.5l3 3.5-3 3.5"/></svg></span><span><b>Código aberto</b><small>Audite no GitHub</small></span></div>
-      <div class="balao b4"><span class="balao-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2.2 13 4v3.7c0 3-2 5.2-5 6.1-3-.9-5-3.1-5-6.1V4l5-1.8Z"/><path d="m5.8 8 1.6 1.6L10.4 6.6"/></svg></span><span><b>Sem rastreamento</b><small>Nenhum analytics</small></span></div>
+    <div class="h-stage h-x h-spot">
+      <div class="h-col l">
+        <div class="h-chips">
+          <div class="h-chip " style="--d:0s"><span class="i"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 6a9 9 0 0 1 13 0M3.8 8.6a5.7 5.7 0 0 1 8.4 0M6.2 11.2a2.4 2.4 0 0 1 3.6 0M2 2l12 12"/></svg></span><span><b>Funciona offline</b><small>Sem internet, sem espera</small></span></div>
+          <div class="h-chip " style="--d:-3.5s"><span class="i"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5.5 4.5-3 3.5 3 3.5M10.5 4.5l3 3.5-3 3.5"/></svg></span><span><b>Código aberto</b><small>Audite no GitHub</small></span></div>
+        </div>
+        <div class="h-dev"><div class="h-phone"><img src="./imagens/fluxocheck_visao-da-rede_celular.png" alt="FluxoCheck: visão geral da rede" loading="lazy"></div></div>
+        <span class="h-tag">FluxoCheck</span>
+      </div>
+      <div class="h-col m">
+        <div class="h-dev"><div class="h-phone main"><img src="./imagens/fluxo-mais_inicio_celular-android.png" alt="Fluxo+: tela inicial" ></div></div>
+        <span class="h-tag" style="color:#fff">Fluxo+</span>
+      </div>
+      <div class="h-col r">
+        <div class="h-chips">
+          <div class="h-chip " style="--d:-1.5s"><span class="i"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="2"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg></span><span><b>Dados criptografados</b><small>SQLCipher no aparelho</small></span></div>
+          <div class="h-chip " style="--d:-5s"><span class="i"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2.2 13 4v3.7c0 3-2 5.2-5 6.1-3-.9-5-3.1-5-6.1V4l5-1.8Z"/><path d="m5.8 8 1.6 1.6L10.4 6.6"/></svg></span><span><b>Sem rastreamento</b><small>Nenhum analytics</small></span></div>
+        </div>
+        <div class="h-dev h-win"><div class="bar"><i></i><i></i><i></i></div><img src="./imagens/escalas_escala-mensal_desktop.png" alt="Fluxo Escalas: escala mensal da equipe" loading="lazy"></div>
+        <span class="h-tag">Escalas</span>
+      </div>
     </div>
+  </div>
+</header>
 
-    <div class="phones-row">
-      <!-- Tela lateral esquerda -->
-      <div class="phone-sm" data-nome="FluxoCheck">
-        <div class="phone-body">
-          <div class="phone-island"><div class="phone-cam"></div><div class="phone-cam dot"></div></div>
-          <div class="phone-screen">
-            <img src="./imagens/fluxocheck_visao-da-rede_celular.png" alt="FluxoCheck: visão geral da rede" loading="lazy">
-          </div>
-          <div class="phone-home"></div>
-        </div>
-        <div class="phone-btn-r"></div><div class="phone-btn-l"></div><div class="phone-btn-l2"></div><div class="phone-btn-l3"></div>
-      </div>
-      <!-- Tela central — maior e elevada -->
-      <div class="phone-sm phone-main" data-nome="Fluxo+">
-        <div class="phone-body">
-          <div class="phone-island"><div class="phone-cam"></div><div class="phone-cam dot"></div></div>
-          <div class="phone-screen">
-            <img src="./imagens/fluxo-mais_inicio_celular-android.png" alt="Dashboard financeiro" loading="lazy">
-          </div>
-          <div class="phone-home"></div>
-        </div>
-        <div class="phone-btn-r"></div><div class="phone-btn-l"></div><div class="phone-btn-l2"></div><div class="phone-btn-l3"></div>
-      </div>
-      <!-- Tela lateral direita -->
-      <div class="phone-sm tablet" data-nome="Escalas">
-        <div class="phone-body">
-          <div class="phone-island"><div class="phone-cam"></div><div class="phone-cam dot"></div></div>
-          <div class="phone-screen">
-            <img src="./imagens/escalas_escala-mensal_desktop.png" alt="Fluxo Escalas: escala mensal da equipe" loading="lazy">
-          </div>
-          <div class="phone-home"></div>
-        </div>
-        <div class="phone-btn-r"></div><div class="phone-btn-l"></div><div class="phone-btn-l2"></div><div class="phone-btn-l3"></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PRODUCT SHOWCASE -->
-<div class="showcase reveal">
-  <div class="showcase-hdr">
-    <div class="sec-tag">Fluxo+ · v0.6.14</div>
-    <h2 class="sec-title">Tudo que você precisa, nada que não precisa.</h2>
-  </div>
-  <div class="panels">
-    <div class="panel panel-vis">
-      <div class="duo">
-        <div class="shot"><img src="./imagens/fluxo-mais_relatorios-por-categoria_celular-android.png" alt="Relatório por categoria no Fluxo+" loading="lazy"></div>
-        <div class="shot"><img src="./imagens/fluxo-mais_relatorios_celular-android.png" alt="Resultado previsto do mês no Fluxo+" loading="lazy"></div>
-      </div>
-    </div>
-    <div class="panel panel-sm">
-      <div class="ui-panel">
-        <div class="ui-pt">Saldo atual</div>
-        <div class="bal-n">R$ 4.230<span class="cents">,00</span></div>
-        <div class="bal-sub">
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 8V2M2 5l3-3 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          +R$ 3.200,00 este mês
-        </div>
-        <div class="bal-accounts">
-          <div class="bacc"><span class="bacc-nm">Nubank</span><span class="bacc-v">R$ 2.830,00</span></div>
-          <div class="bacc"><span class="bacc-nm">Bradesco</span><span class="bacc-v">R$ 1.400,00</span></div>
-        </div>
-      </div>
-      <div class="ui-panel">
-        <div class="ui-pt">Lançamentos</div>
-        <div class="tx">
-          <div class="tx-ico" style="background:rgba(248,113,113,.1)">🛒</div>
-          <div class="tx-info"><div class="tx-nm">Supermercado</div><div class="tx-dt">Hoje</div></div>
-          <div class="tx-val neg">−R$ 187,50</div>
-        </div>
-        <div class="tx">
-          <div class="tx-ico" style="background:rgba(168,224,99,.1)">💼</div>
-          <div class="tx-info"><div class="tx-nm">Salário</div><div class="tx-dt">01/10</div></div>
-          <div class="tx-val pos">+R$ 3.200,00</div>
-        </div>
-        <div class="tx">
-          <div class="tx-ico" style="background:rgba(99,102,241,.1)">📺</div>
-          <div class="tx-info"><div class="tx-nm">Streaming</div><div class="tx-dt">28/09</div></div>
-          <div class="tx-val neg">−R$ 19,90</div>
-        </div>
-        <div class="tx">
-          <div class="tx-ico" style="background:rgba(251,191,36,.1)">⚡</div>
-          <div class="tx-info"><div class="tx-nm">Conta de luz</div><div class="tx-dt">25/09</div></div>
-          <div class="tx-val neg">−R$ 189,00</div>
-        </div>
-      </div>
-      <div class="ui-panel">
-        <div class="ui-pt">Por categoria</div>
-        <div class="cat"><span class="cat-l">Alimentação</span><div class="cat-bw"><div class="cat-b" style="width:72%;background:#a8e063"></div></div><span class="cat-v">R$ 542</span></div>
-        <div class="cat"><span class="cat-l">Moradia</span><div class="cat-bw"><div class="cat-b" style="width:55%;background:#38bdf8"></div></div><span class="cat-v">R$ 415</span></div>
-        <div class="cat"><span class="cat-l">Transporte</span><div class="cat-bw"><div class="cat-b" style="width:30%;background:#a78bfa"></div></div><span class="cat-v">R$ 228</span></div>
-        <div class="cat"><span class="cat-l">Lazer</span><div class="cat-bw"><div class="cat-b" style="width:18%;background:#f472b6"></div></div><span class="cat-v">R$ 139</span></div>
-        <div class="cat"><span class="cat-l">Outros</span><div class="cat-bw"><div class="cat-b" style="width:10%;background:#fb923c"></div></div><span class="cat-v">R$ 78</span></div>
-      </div>
-    </div>
-  </div>
+<div class="h-spec">
+  <span>MIT License</span><span>SQLCipher</span><span>Offline-first</span><span>Open source</span><span>Sem conta obrigatória</span>
 </div>
 
-<!-- STATEMENTS -->
-<section class="stmts">
-  <div class="stmts-in">
-    <div class="stmt reveal">
-      <div class="stmt-h">Funciona<br>sem internet.</div>
-      <p class="stmt-p">SQLite local. Todas as operações — registrar despesa, consultar saldo, ver histórico — funcionam completamente sem rede. Sincronização com a nuvem é opcional e nunca bloqueia o app.</p>
+<main>
+<section class="h-sec" id="produtos">
+  <div class="h-wrap">
+    <div class="h-head">
+      <p class="k">Sistemas</p>
+      <h2>Uma plataforma para cada operação.</h2>
+      <p class="s">Três sistemas independentes, construídos sobre a mesma arquitetura.</p>
     </div>
-    <div class="stmt flip reveal">
-      <div class="stmt-h">Nada sai do<br>seu aparelho.</div>
-      <p class="stmt-p">Banco criptografado com SQLCipher. Seus dados não passam por nenhum servidor nosso. Sem analytics de comportamento, sem rastreamento de padrão de gastos.</p>
-    </div>
-    <div class="stmt reveal">
-      <div class="stmt-h">Código aberto,<br>auditável.</div>
-      <p class="stmt-p">Fluxo+ é open source no GitHub. Você lê o que quiser, contribui, ou cria seu próprio fork. Nada escondido — nem no app, nem no backend de validação de assinatura.</p>
-    </div>
-  </div>
-</section>
-
-<!-- PRODUCTS -->
-<section class="prods-sec" id="produtos">
-  <div class="prods-in">
-    <div class="prods-hd">
-      <p class="prods-ht">Ecossistema</p>
-      <p class="prods-hs">Três produtos.<br>Um propósito.</p>
-    </div>
-    <div class="prods-list">
-      <a class="prow" href="./fluxo-mais.html">
-        <div class="prow-body">
-          <span class="prow-nm">Fluxo+</span>
-          <span class="prow-ds">Finanças pessoais offline-first. Android, Windows e Linux.</span>
-        </div>
-        <span class="prod-tg live">Live v0.6</span>
-        <span class="prow-act">Ver produto <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    <div class="h-prods h-x">
+      <a class="h-prod h-spot" href="./fluxo-mais.html">
+        <div class="pshot"><img src="./imagens/fluxo-mais_relatorios_celular-android.png" alt="Fluxo+: relatórios" loading="lazy"></div>
+        <div class="body"><div class="top"><h3>Fluxo+</h3><span class="h-st on">Disponível · <span data-gh-tag>v0.6.16</span></span></div>
+          <p>Controle receitas, despesas e metas sem depender de servidor. Android, Windows e Linux.</p>
+          <span class="go">Ver produto <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       </a>
-      <a class="prow" href="./escalas.html">
-        <div class="prow-body">
-          <span class="prow-nm">Fluxo Escalas</span>
-          <span class="prow-ds">Gestão de escalas e turnos para pequenas equipes.</span>
-        </div>
-        <span class="prod-tg bt">Beta</span>
-        <span class="prow-act">Ver produto <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <a class="h-prod h-spot" href="./escalas.html">
+        <div class="pshot wide"><img src="./imagens/escalas_escala-mensal_desktop.png" alt="Fluxo Escalas: escala mensal" loading="lazy"></div>
+        <div class="body"><div class="top"><h3>Fluxo Escalas</h3><span class="h-st">Beta</span></div>
+          <p>Gere a escala por regras, detecte conflitos e controle folgas e banco de horas.</p>
+          <span class="go">Ver produto <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       </a>
-      <a class="prow" href="./fluxocheck.html">
-        <div class="prow-body">
-          <span class="prow-nm">FluxoCheck</span>
-          <span class="prow-ds">Checklists com histórico, alertas e relatórios de conformidade.</span>
-        </div>
-        <span class="prod-tg wip">Em dev</span>
-        <span class="prow-act">Ver produto <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <a class="h-prod h-spot" href="./fluxocheck.html">
+        <div class="pshot"><img src="./imagens/fluxocheck_visao-da-rede_celular.png" alt="FluxoCheck: visão da rede" loading="lazy"></div>
+        <div class="body"><div class="top"><h3>FluxoCheck</h3><span class="h-st">Em desenvolvimento</span></div>
+          <p>Execute checklists por unidade e acompanhe a conformidade de toda a rede.</p>
+          <span class="go">Ver produto <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       </a>
     </div>
   </div>
 </section>
 
-<!-- CTA -->
-<div class="cta-sec reveal">
-  <div class="cta-h">Software sólido<br>começa aqui.</div>
-  <p class="cta-s">Android, Windows e Linux. Sem conta obrigatória. Sem rastreamento.</p>
-  <div class="cta-btns">
-    <a class="btn-p" href="https://github.com/LINCOLN201/Fluxo-Plus/releases/latest/download/fluxo-plus-android.apk" target="_blank" rel="noopener">
-      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M5 9h6v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V9z" stroke="currentColor" stroke-width="1.5"/><path d="M5 9A3 3 0 0 1 8 6a3 3 0 0 1 3 3" stroke="currentColor" stroke-width="1.5"/><path d="M3.5 10.5H2.5M13.5 10.5H12.5M6 5.5 5 4M10 5.5l1-1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="6.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="9.5" cy="7.5" r=".5" fill="currentColor"/></svg>
-      Android APK
-    </a>
-    <a class="btn-g" href="https://github.com/LINCOLN201/Fluxo-Plus/releases/latest/download/fluxo-plus-windows.zip" target="_blank" rel="noopener">
-      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="2" y="2" width="5.5" height="5.5" rx=".5" fill="currentColor"/><rect x="8.5" y="2" width="5.5" height="5.5" rx=".5" fill="currentColor"/><rect x="2" y="8.5" width="5.5" height="5.5" rx=".5" fill="currentColor"/><rect x="8.5" y="8.5" width="5.5" height="5.5" rx=".5" fill="currentColor"/></svg>
-      Windows
-    </a>
-    <a class="btn-g" href="https://github.com/LINCOLN201/Fluxo-Plus/releases/latest/download/fluxo-plus-linux.tar.gz" target="_blank" rel="noopener">
-      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="2" y="2" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M4 7l2 2-2 2M8 11h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Linux
-    </a>
-    <a class="btn-g" href="https://github.com/LINCOLN201/Fluxo-Plus" target="_blank" rel="noopener">Ver no GitHub</a>
-  </div>
-  <p class="cta-note">Grátis no básico · Premium <b>R$ 9,90/mês</b></p>
-</div>
 
-<!-- FOOTER -->
-<footer>
-  <div class="ft-grid">
-    <div>
-      <div class="ft-brand">
-        <img src="assets/logo-fluxo.png" alt="Fluxo Ecossistema" width="104" height="39" style="height:24px;width:auto;display:block;opacity:.9">
-      </div>
-      <p class="ft-desc">Estúdio de software brasileiro construindo ferramentas abertas, offline-first e respeitosas. Dados que ficam com você.</p>
+<section class="h-sec" id="dados">
+  <div class="h-wrap">
+    <div class="h-head">
+      <p class="k">Dados</p>
+      <h2>Dados no dispositivo.</h2>
+      <p class="s">O Fluxo+ grava em um banco SQLite no aparelho. Sincronização e backup só com sua autorização.</p>
     </div>
-    <div>
-      <div class="ft-col-h">Produtos</div>
-      <div class="ft-col-lks">
-        <a href="./fluxo-mais.html">Fluxo+</a>
-        <a href="./escalas.html">Escalas</a>
-        <a href="./fluxocheck.html">FluxoCheck</a>
-        
-        
+    <div class="h-arq h-x h-spot">
+      <div class="h-node local">
+        <h3>Seu aparelho <small>padrão</small></h3>
+        <ul>
+          <li class="on">App Fluxo+ <code>lê e grava</code></li>
+          <li class="on">Banco local <code>SQLCipher no Android</code></li>
+          <li class="on">Funciona sem rede <code>offline-first</code></li>
+        </ul>
+      </div>
+      <div class="h-link"><span>opcional</span></div>
+      <div class="h-node off">
+        <h3>Nuvem <small>só se você ativar</small></h3>
+        <ul>
+          <li>Sincronização entre aparelhos <code>desligada</code></li>
+          <li>Backup na nuvem <code>desligado</code></li>
+        </ul>
       </div>
     </div>
-    <div>
-      <div class="ft-col-h">Repositório</div>
-      <div class="ft-col-lks">
-        <a href="https://github.com/LINCOLN201/Fluxo-Plus" target="_blank" rel="noopener">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-          GitHub
-        </a>
-        <a href="https://github.com/LINCOLN201/Fluxo-Plus/releases" target="_blank" rel="noopener">Releases</a>
-        <a href="https://github.com/LINCOLN201/Fluxo-Plus/issues" target="_blank" rel="noopener">Reportar bug</a>
-        <a href="mailto:lincolnqueiroz201@gmail.com">Contato</a>
+    <div class="h-arq-foot"><code>analytics</code><span>O app não tem rastreadores nem análise de comportamento.</span></div>
+  </div>
+</section>
+
+<section class="h-sec" id="codigo">
+  <div class="h-wrap">
+    <div class="h-head">
+      <p class="k">Transparência</p>
+      <h2>Código aberto e verificável.</h2>
+      <p class="s">Repositório público, licença MIT. Releases com checksum SHA-256.</p>
+    </div>
+    <div class="h-code">
+      <div class="h-term h-x" id="term" aria-label="Exemplo de comandos para clonar o repositório">
+        <div class="bar"><i></i><i></i><i></i><span>~/fluxo</span></div>
+        <pre id="term-out" aria-live="off"></pre>
+      </div>
+      <div class="h-repo h-spot">
+        <header><b>Repositório do Fluxo+</b><span class="live"><i></i>GitHub ao vivo</span></header>
+        <dl>
+          <div><dt>Última versão</dt><dd data-gh-tag>v0.6.16</dd></div>
+          <div><dt>Linguagem</dt><dd id="gh-lang">—</dd></div>
+          <div><dt>Licença</dt><dd>MIT</dd></div>
+          <div><dt>Último push</dt><dd id="gh-push">—</dd></div>
+        </dl>
+        <a class="btn-g" href="https://github.com/LINCOLN201/Fluxo-Plus" target="_blank" rel="noopener">Abrir no GitHub</a>
       </div>
     </div>
   </div>
-  <div class="ft-bottom">
-    <span class="ft-copy">© 2026 Fluxo Ecossistema · Software com propósito, feito no Brasil</span>
-    <span class="ft-made">MIT License · Open Source</span>
+</section>
+
+<section class="h-sec">
+  <div class="h-wrap">
+    <div class="h-head"><p class="k">Engenharia</p><h2>Construído para funcionar sem rede.</h2></div>
+    <div class="h-pri h-x">
+      <div>
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 6a9 9 0 0 1 13 0M3.8 8.6a5.7 5.7 0 0 1 8.4 0M6.2 11.2a2.4 2.4 0 0 1 3.6 0M2 2l12 12"/></svg>
+        <h3>Opere offline.</h3>
+        <p>Tudo roda sobre um banco local. Lançar uma despesa, ver o saldo e consultar o histórico não dependem de rede. A sincronização é opcional.</p>
+      </div>
+      <div>
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="2"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg>
+        <h3>Proteja os dados no aparelho.</h3>
+        <p>No Android, o banco é criptografado com SQLCipher. Sem o backup na nuvem ativado, nada passa por servidor nosso. Não há analytics nem rastreamento.</p>
+      </div>
+      <div>
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5.5 4.5-3 3.5 3 3.5M10.5 4.5l3 3.5-3 3.5"/></svg>
+        <h3>Audite o código.</h3>
+        <p>O código do Fluxo+ está no GitHub, sob licença MIT. Qualquer pessoa pode ler, contribuir ou criar um fork.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="h-sec">
+  <div class="h-wrap">
+    <div class="h-nums h-x">
+      <div><b>3</b><span>Produtos em desenvolvimento</span></div>
+      <div><b data-gh-tag>v0.6.16</b><span>Versão atual do Fluxo+</span></div>
+      <div><b>MIT</b><span>Licença open source</span></div>
+      <div><b>0</b><span>Analytics ou rastreadores</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="h-end">
+  <div class="h-wrap">
+    <h2>Disponível hoje.</h2>
+    <p>Fluxo+ para Android, Windows e Linux. Sem cadastro e sem rastreamento.</p>
+    <div class="h-cta">
+      <a class="btn-p" href="./baixar.html">Baixar agora</a>
+      <a class="btn-g" href="https://github.com/LINCOLN201/Fluxo-Plus" target="_blank" rel="noopener">Ver no GitHub</a>
+    </div>
+    <p class="h-os">Grátis no básico · Premium R$ 9,90/mês</p>
+  </div>
+</section>
+</main>
+
+<footer class="h-foot">
+  <div class="h-wrap">
+    <div class="fgrid">
+      <div class="brand"><img src="assets/logo-fluxo.png" alt="Fluxo Ecossistema" width="75" height="28"><p>Estúdio de software brasileiro. Ferramentas abertas, offline-first e respeitosas. Atendimento somente por e-mail.</p></div>
+      <div><h4>Produtos</h4><ul><li><a href="fluxo-mais.html">Fluxo+</a></li><li><a href="escalas.html">Escalas</a></li><li><a href="fluxocheck.html">FluxoCheck</a></li><li><a href="baixar.html">Baixar</a></li><li><a href="https://github.com/LINCOLN201/Fluxo-Plus" target="_blank" rel="noopener">GitHub</a></li></ul></div>
+      <div><h4>Suporte</h4><ul><li><a href="suporte.html">Central de ajuda</a></li><li><a href="contato.html">Fale conosco</a></li><li><a href="status.html">Status dos sistemas</a></li><li><a href="seguranca.html">Segurança</a></li></ul></div>
+      <div><h4>Políticas</h4><ul><li><a href="termos.html">Termos de uso</a></li><li><a href="privacidade.html">Privacidade</a></li><li><a href="cookies.html">Cookies</a></li><li><a href="uso-aceitavel.html">Uso aceitável</a></li><li><a href="reembolso.html">Reembolso</a></li></ul></div>
+      <div><h4>Empresa</h4><ul><li><a href="sobre.html">Sobre</a></li><li><a href="marca.html">Marca e direitos</a></li><li><a href="imprensa.html">Imprensa</a></li><li><a href="mapa-do-site.html">Mapa do site</a></li></ul></div>
+    </div>
+    <div class="bot"><span>© 2026 Fluxo Ecossistema™ · Feito no Brasil</span><span>Contato: <a href="mailto:fluxoecossistema@gmail.com">fluxoecossistema@gmail.com</a></span></div>
   </div>
 </footer>
-
 <script>
-// Scroll reveal
-const obs = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-      obs.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.12 });
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+(function () {
+  var reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // dados públicos do repositório (API pública do GitHub, sem chave); se falhar, ficam os valores padrão
+  function tag() { var e = document.querySelector('[data-gh-tag]'); return e ? e.textContent : ''; }
+  function ago(d) { var s = (Date.now() - new Date(d)) / 1000, u = [[86400, 'dia'], [3600, 'h'], [60, 'min']];
+    for (var i = 0; i < u.length; i++) if (s >= u[i][0]) { var n = Math.floor(s / u[i][0]); return 'há ' + n + (u[i][1] === 'dia' ? ' dia' + (n > 1 ? 's' : '') : u[i][1]); } return 'agora'; }
+  fetch('https://api.github.com/repos/LINCOLN201/Fluxo-Plus').then(function (r) { return r.ok ? r.json() : Promise.reject(); }).then(function (j) {
+    if (j.language) document.getElementById('gh-lang').textContent = j.language; document.getElementById('gh-push').textContent = ago(j.pushed_at); }).catch(function () {});
 
+  // terminal: digita quando aparece na tela
+  var out = document.getElementById('term-out'), term = document.getElementById('term'), rodou = false;
+  function linhas() { return [
+    ['p', '$ ', 'git clone https://github.com/LINCOLN201/Fluxo-Plus.git'],
+    ['o', '', "Cloning into 'Fluxo-Plus'... pronto."],
+    ['p', '$ ', 'head -1 LICENSE'],
+    ['ok', '', 'MIT License'],
+    ['p', '$ ', 'git describe --tags'],
+    ['ok', '', tag()] ]; }
+  function esc(t) { return t.replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); }
+  function render(L, upto, chars) {
+    var h = ''; for (var i = 0; i < L.length; i++) { if (i > upto) break; var l = L[i], t = i === upto ? l[2].slice(0, chars) : l[2];
+      h += (l[0] === 'p' ? '<span class="p">' + l[1] + '</span>' : '') + '<span class="' + (l[0] === 'p' ? '' : l[0]) + '">' + esc(t) + '</span>' + (i < upto ? '\n' : ''); }
+    out.innerHTML = h + '<span class="cur"></span>'; }
+  function rodar() { if (rodou) return; rodou = true; var L = linhas();
+    if (reduz) { render(L, L.length - 1, 999); return; }
+    var i = 0, c = 0; (function passo() { var l = L[i], dig = l[0] === 'p';
+      render(L, i, c);
+      if (c < l[2].length) { c += dig ? 1 : 99; setTimeout(passo, dig ? 38 : 0); }
+      else if (i < L.length - 1) { i++; c = 0; setTimeout(passo, dig ? 420 : 220); } })(); }
+  render(linhas(), -1, 0);
+  if ('IntersectionObserver' in window) { new IntersectionObserver(function (e, o) { if (e[0].isIntersecting) { rodar(); o.disconnect(); } }, { threshold: .4 }).observe(term); } else { rodar(); }
+})();
 </script>
+<script src="site.js?v=2" defer></script>
 </body>
 </html>
